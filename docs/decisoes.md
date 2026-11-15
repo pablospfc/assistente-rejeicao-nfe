@@ -437,3 +437,24 @@ Na prática, o projeto aceita qualquer certificado, inclusive autoassinado, e co
 - *Uma base por mutação:* menos casos, e o resultado dependeria da base escolhida.
 - *Mutações por troca de texto:* dependeriam dos valores de cada base e não se aplicariam a todas.
 - *Cobrar no teste que todas as mutações acertem:* induziria a ajustar regras ou mutações até "passar". O teste cobra só o controle negativo e a cobertura do escopo.
+
+## D024 — Característica do 225: elemento obrigatório ausente no meio de uma sequência
+
+**Contexto.** Na execução inicial da avaliação (`docs/avaliacao/inicial/`, commit 792e81a), a mutação `M225-faltando` remove o `verProc` do grupo `ide`. Em quatro bases o `verProc` é o último elemento do grupo. O validador XSD acusa então "grupo incompleto" (`cvc-complex-type.2.4.b`), e a ocorrência aponta `/NFe/infNFe/ide`, como esperado. Na base de devolução, o `verProc` é seguido pelo `NFref`. Ali o validador acusa o `NFref` como elemento inesperado (`cvc-complex-type.2.4.a`, motivo `elementoInesperado`), e a ocorrência aponta `/NFe/infNFe/ide/NFref`. O 225 foi detectado e a explicação está completa ("O elemento NFref apareceu numa posição em que era esperado: verProc…"), mas o critério "campo correto" falhou nesse caso (111 de 112).
+
+**Decisão.** Manter o caso como está, sem alterar a regra nem a expectativa da mutação, e tratá-lo na discussão do artigo como uma característica da validação por schema:
+- quando falta um elemento obrigatório **no meio** de uma sequência, o validador XSD só percebe a falta ao encontrar o **elemento seguinte**, e é esse o nó que ele aponta;
+- a explicação gerada cita o elemento esperado (`verProc`), mas o XPath destacado é o do elemento seguinte (`NFref`);
+- quando o elemento ausente é o último da sequência, o validador aponta o grupo pai, e o destaque coincide com o lugar da falta.
+
+**Melhoria futura.** No motivo `elementoInesperado`, destacar também a posição do elemento esperado. A ocorrência ganharia um segundo XPath, o do lugar onde o elemento ausente deveria estar (logo antes do elemento encontrado, no mesmo pai), e o frontend mostraria os dois: o elemento que o validador encontrou e a posição do que falta.
+
+**Fechamento da avaliação.** Não houve correções entre a execução inicial e a final:
+- a final (`docs/avaliacao/final/`) foi gerada no commit c08af90, que só acrescenta os arquivos da inicial;
+- o código do backend é o mesmo do 792e81a;
+- o `resultados.csv` das duas execuções é idêntico byte a byte, e a Tabela 1 e o Quadro 1 diferem só na data de geração e no hash do commit;
+- a seção "Correções feitas durante a avaliação" do relatório final registra "Nenhuma".
+
+**Alternativas descartadas.**
+- *Corrigir a expectativa da mutação para a base de devolução:* faria o resultado chegar a 100%, mas seria um ajuste feito depois de ver o resultado, o que comprometeria a avaliação.
+- *Trocar a mutação por outra em que o elemento removido seja sempre o último:* esconderia uma característica real da validação por schema, que interessa à discussão.
