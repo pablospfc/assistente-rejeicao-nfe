@@ -33,7 +33,9 @@ public record CertificadoTeste(PrivateKey chavePrivada, X509Certificate certific
             Path arquivo = pasta.resolve("certificado.p12");
             String senha = UUID.randomUUID().toString();
 
-            Process keytool = new ProcessBuilder(List.of(keytool().toString(),
+            // Idioma fixo em inglês: no JDK 25, o aviso de chave fraca do keytool em pt-BR tem um
+            // erro de formatação (MissingFormatArgumentException) e o comando termina com falha (D028).
+            Process keytool = new ProcessBuilder(List.of(keytool().toString(), "-J-Duser.language=en",
                     "-genkeypair", "-alias", ALIAS, "-keyalg", "RSA", "-keysize", String.valueOf(bits),
                     "-sigalg", "SHA256withRSA", "-validity", "3650",
                     "-dname", "CN=EMPRESA FICTICIA DE TESTES LTDA, OU=Certificado de teste autoassinado, C=BR",

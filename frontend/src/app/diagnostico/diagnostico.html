@@ -92,5 +92,15 @@
         </mat-card-content>
       </mat-card>
     </div>
+  } @else {
+    <mat-card appearance="outlined" class="xml-valido">
+      <mat-card-header>
+        <mat-card-title>XML enviado</mat-card-title>
+        <mat-card-subtitle>Nenhum campo em destaque: nenhuma das verificações apontou problema</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <app-visualizador-xml [xml]="validacao().xml" />
+      </mat-card-content>
+    </mat-card>
   }
 </div>

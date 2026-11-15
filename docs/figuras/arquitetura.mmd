@@ -1,0 +1,8 @@
+%% Fluxo da validação (mesmo diagrama do README). Exportar em https://mermaid.live como arquitetura.png.
+flowchart LR
+    U["Navegador<br/>Angular 22 + Material"] -- "POST /api/validacoes<br/>(XML, multipart)" --> A["API<br/>Spring Boot"]
+    A --> E["1. Estrutura<br/>243 · 404 · 225 · 297"]
+    E -- "bem formado" --> R["2. Regras de negócio<br/>uma classe por rejeição"]
+    E -- "mal formado (243)" --> X
+    R --> X["3. Explicação<br/>catálogo YAML"]
+    X -- "ocorrências + explicação + XPath" --> U

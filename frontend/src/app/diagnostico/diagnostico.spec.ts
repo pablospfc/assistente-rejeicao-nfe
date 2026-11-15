@@ -62,10 +62,12 @@ describe('DiagnosticoPagina', () => {
     expect(tela.querySelector('.destacada')?.textContent).toContain('<CNPJ>11222333000182</CNPJ>');
   });
 
-  it('NF-e sem rejeições mostra o resumo e não mostra a lista', async () => {
+  it('NF-e sem rejeições mostra o resumo e o XML, sem lista e sem destaque', async () => {
     const tela = await abrir({ valida: true, regrasApesarDeFalhaNoSchema: false, camadas: {} });
 
     expect(tela.textContent).toContain('Nenhuma rejeição encontrada');
     expect(tela.querySelector('mat-accordion')).toBeNull();
+    expect(tela.querySelector('app-visualizador-xml')?.textContent).toContain('<cUF>99</cUF>');
+    expect(tela.querySelectorAll('.destacada').length).toBe(0);
   });
 });

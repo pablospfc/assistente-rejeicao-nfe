@@ -42,9 +42,9 @@ Os títulos e as regras foram conferidos nas fontes oficiais listadas abaixo. Ao
 
 ## Como rodar
 
-### Backend (Java 21)
+### Backend (Java 25, Spring Boot 4.1)
 
-Requer JDK 21 (`JAVA_HOME`). O Maven vem pelo wrapper.
+Requer JDK 25 (`JAVA_HOME`). O Maven vem pelo wrapper.
 
 ```bash
 cd backend

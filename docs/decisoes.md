@@ -12,6 +12,7 @@ Cada decisão segue o formato: contexto, decisão, alternativas descartadas.
 | 4 — Assinatura | D020 alcance do 297 · D021 SHA-1 só no contexto de validação · D022 certificado gerado na execução |
 | 5 — Avaliação | D023 metodologia por mutações · D024 característica do 225 |
 | 6 — Frontend | D025 Angular 22 e Material · D026 visualizador sem persistência e sem terceiros · D027 exemplos assinados |
+| 7 — Revisão final | D028 migração para Spring Boot 4.1.1 e Java 25 |
 
 A seção [Limitações e extensões futuras](#limitações-e-extensões-futuras), no fim, reúne o que ficou fora do escopo.
 
@@ -544,6 +545,38 @@ Na prática, o projeto aceita qualquer certificado, inclusive autoassinado, e co
 - *Assinar os exemplos à mão:* não seria reproduzível.
 - *Gerar os exemplos com uma chave fixa versionada:* contrariaria a regra de não ter segredos no repositório.
 
+**Observação: `&#13;` nas assinaturas geradas.**
+- A API de assinatura XML do JDK quebra os valores base64 (`SignatureValue` e `X509Certificate`) em linhas de 76 caracteres e grava o retorno de carro como `&#13;`.
+- O XML continua válido: o tipo `base64Binary` ignora espaços em branco. O validador do projeto confere essas assinaturas sem problema, e os exemplos e os testes passam.
+- Há relatos de ambientes de autorização que recusam assinaturas com essas quebras. Isso não foi verificado, porque o projeto não se conecta à SEFAZ.
+- Os exemplos são para demonstração dentro do próprio projeto e ficam como estão. Para gerar uma assinatura sem quebras, seria preciso configurar o assinador para não quebrar as linhas. O JDK tem uma propriedade de sistema para isso no Santuario embutido, que fica **a conferir** antes de qualquer uso.
+
+## D028 — Migração para Spring Boot 4.1.1 e Java 25
+
+**Contexto.** O backend foi construído com Spring Boot 3.5.16 e Java 21, como previa o CLAUDE.md. Na revisão final, o autor pediu a atualização para o **Spring Boot 4.1.1** e o **Java 25** (LTS), as versões atuais. A 4.1.2 já existia, mas foi mantida a versão pedida. A migração não podia alterar o comportamento da validação.
+
+**Decisão.**
+- **JDK:** Microsoft Build of OpenJDK 25.0.5 LTS, instalado pelo autor em `~/.jdks/ms-25.0.5.0.2`. No `pom.xml`, `java.version` passou a 25 e o *parent* passou a `spring-boot-starter-parent` 4.1.1 (Tomcat 11.0.24).
+- **Starters:**
+  - `spring-boot-starter-web` foi trocado por `spring-boot-starter-webmvc`, o nome atual no Boot 4;
+  - entrou o `spring-boot-starter-webmvc-test`, porque no Boot 4 a autoconfiguração do `MockMvc` saiu do `spring-boot-starter-test`;
+  - o SnakeYAML continua gerenciado pelo Boot (2.6).
+- **Código:** o código principal compilou sem mudanças. Nos testes, só o import do `@AutoConfigureMockMvc` mudou de pacote (`org.springframework.boot.webmvc.test.autoconfigure`).
+- **Defeito do `keytool` do JDK 25 em português:** ao gerar a chave RSA de 512 bits do teste de segurança do 297, o aviso de chave fraca traduzido para pt-BR tem um erro de formatação (`MissingFormatArgumentException: '%2$s'`), e o comando termina com falha. O mesmo comando funciona com `-J-Duser.language=en`. O `CertificadoTeste` passou a chamar o `keytool` com o idioma fixado em inglês, e a regra conferida pelo teste não mudou. Os scripts de `scripts/` usam chaves de 2048 bits, que não geram esse aviso.
+- **SHA-1 (D021):** a política de validação segura do JDK 25 continua recusando `sha1` e `rsa-sha1`. O ajuste restrito ao `DOMValidateContext` segue funcionando, e os testes do 297 passam.
+
+**Verificação.**
+- Os 233 testes do backend passam no JDK 25 com o Boot 4.1.1.
+- A avaliação completa, gravada fora de `docs/`, deu um `resultados.csv` **idêntico byte a byte** ao da execução final (659070f). A Tabela 1 e o Quadro 1 só diferem no cabeçalho, que registra o JDK.
+- Os exemplos foram conferidos pelo `ExemplosAssinadosTest` e mantêm os códigos esperados.
+- O jar empacotado sobe sem avisos da aplicação no JDK 25 e responde corretamente aos exemplos válidos e com erro (243, 297 e 225/207/610/598), ao arquivo ausente (400) e ao acima de 1 MB (413).
+- Os avisos de `sun.misc.Unsafe` vistos no build vêm do Maven 3.9.11 (biblioteca Guice), não da aplicação.
+
+**Alternativas descartadas.**
+- *Manter o Boot 3.5 e o Java 21:* o suporte gratuito da linha 3.5 era incerto no período de uso do projeto.
+- *Spring Boot 4.1.2:* mais nova, mas a versão pedida pelo autor foi a 4.1.1.
+- *Contornar o defeito do `keytool` gerando a chave fraca de outro jeito (APIs internas do JDK ou outra biblioteca):* fixar o idioma resolve com uma linha e mantém o mesmo comando dos scripts.
+
 ## Limitações e extensões futuras
 
 Esta seção consolida o que as decisões acima deixaram fora do escopo, para a seção de Considerações Finais do artigo.
@@ -555,7 +588,6 @@ Esta seção consolida o que as decisões acima deixaram fora do escopo, para a 
 - Na falta de um elemento obrigatório no meio de uma sequência, o 225 aponta o elemento seguinte (D024).
 - As fontes conferidas foram o MOC 7.0 (2020), a NT 2020.006 v1.30 e o IT 2023.002 v2.10. Os schemas são de 2026 (PL 010g), e Notas Técnicas posteriores podem ter alterado textos ou regras (D013).
 - A IE é conferida só para MA, SP e PR (sem o produtor rural de SP). Nas demais UFs, as regras 209 e 210 são ignoradas (D011).
-- O backend usa Spring Boot 3.5, como pede o CLAUDE.md (linha 3.x). É preciso conferir se a linha 3.5 ainda tem suporte gratuito no período de uso do projeto.
 
 **Extensões futuras**
 - **587** (usar somente o namespace padrão da NF-e): um verificador na camada de estrutura (D005).
