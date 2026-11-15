@@ -29,7 +29,6 @@ class DigitoVerificadorTest {
     @ParameterizedTest
     @ValueSource(strings = {"11222333000181", "12ABC34501DE35", "Q7X2M9K4000140"})
     void cnpjsValidos(String cnpj) {
-        // 12ABC34501DE35 é o exemplo de CNPJ alfanumérico da Receita Federal.
         assertThat(DigitoVerificador.cnpjValido(cnpj)).isTrue();
     }
 
@@ -47,7 +46,6 @@ class DigitoVerificadorTest {
     @ParameterizedTest
     @ValueSource(strings = {"11144477736", "11111111111", "00000000000", "1114447773", "1114447773X"})
     void cpfsInvalidos(String cpf) {
-        // 111.111.111-11 tem dígitos que "conferem", mas é inválido por ter todos os dígitos iguais.
         assertThat(DigitoVerificador.cpfValido(cpf)).isFalse();
     }
 }

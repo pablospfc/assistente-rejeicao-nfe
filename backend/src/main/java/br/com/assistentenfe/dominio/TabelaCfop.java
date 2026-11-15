@@ -10,11 +10,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Tabela CFOP do Portal da NF-e (Informe Técnico 2023.002 v2.10), guardada em
- * {@code resources/tabelas} como TSV com todas as colunas da planilha original (D019).
- * As colunas são localizadas pelo nome do cabeçalho, não pela posição.
- */
 public final class TabelaCfop {
 
     private static final String ARQUIVO = "/tabelas/cfop-it-2023-002-v2.10.tsv";
@@ -52,7 +47,6 @@ public final class TabelaCfop {
         }
     }
 
-    /** Verdadeiro se o CFOP é de devolução de mercadoria ({@code indDevol = 1}). */
     public boolean devolucao(String cfop) {
         return devolucao.contains(cfop);
     }

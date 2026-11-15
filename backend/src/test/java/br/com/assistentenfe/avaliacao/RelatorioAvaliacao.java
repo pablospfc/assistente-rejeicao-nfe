@@ -20,10 +20,8 @@ import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-/** Grava o resultado da avaliação em CSV e Markdown (Tabela 1 e Quadro 1 do artigo). */
 public final class RelatorioAvaliacao {
 
-    /** Grupos do escopo, na ordem do CLAUDE.md. */
     static final Map<String, List<String>> GRUPOS = new LinkedHashMap<>();
 
     static {
@@ -67,8 +65,6 @@ public final class RelatorioAvaliacao {
         Files.writeString(pasta.resolve("quadro-1.md"), cabecalho + quadro1(), StandardCharsets.UTF_8);
     }
 
-    // --- CSV: uma linha por caso --------------------------------------------------------------
-
     String csv() {
         StringBuilder s = new StringBuilder("id;codigo;grupo;base;assinatura;isolamento;detectada;codigo_correto;"
                 + "campo_correto;explicacao_completa;xpath_esperado;xpath_encontrado;codigos_encontrados;extras\n");
@@ -82,8 +78,6 @@ public final class RelatorioAvaliacao {
         }
         return s.toString();
     }
-
-    // --- Tabela 1: métricas por grupo -----------------------------------------------------------
 
     String tabela1() {
         StringBuilder s = new StringBuilder("## Tabela 1 — Resultado da avaliação por grupo\n\n");
@@ -155,8 +149,6 @@ public final class RelatorioAvaliacao {
         return n + " (" + String.format(Locale.of("pt", "BR"), "%.1f", pct) + "%)";
     }
 
-    // --- Quadro 1: código, rejeição e mutação ---------------------------------------------------
-
     String quadro1() {
         StringBuilder s = new StringBuilder("## Quadro 1 — Mutações aplicadas por código de rejeição\n\n");
         s.append("| Grupo | Código | Rejeição | Mutação | Assinatura | Ajuste de isolamento | Casos |\n");
@@ -180,15 +172,9 @@ public final class RelatorioAvaliacao {
         return celula(catalogo.explicar(new Ocorrencia(codigo, Camada.ESTRUTURA, null, null, null, null)).titulo());
     }
 
-    /**
-     * Texto seguro para uma célula de tabela Markdown: escapa "<" e ">" (senão o GitHub trata
-     * "</natOp>" como tag HTML e o esconde) e a barra vertical, que separa as colunas.
-     */
     static String celula(String texto) {
         return texto.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("|", "\\|");
     }
-
-    // --- Cabeçalho de reprodutibilidade -------------------------------------------------------
 
     private String cabecalho() {
         List<String> linhas = new ArrayList<>();

@@ -7,10 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-/**
- * Catálogo que transforma uma {@link Ocorrencia} em {@link Explicacao}.
- * Os textos ficam em {@code catalogo-rejeicoes.yml}, nunca nas regras.
- */
 public final class CatalogoRejeicoes {
 
     private static final String ARQUIVO = "/catalogo-rejeicoes.yml";
@@ -70,7 +66,6 @@ public final class CatalogoRejeicoes {
         return valor != null ? valor.toString() : padrao;
     }
 
-    /** Último passo do XPath, sem índice: /NFe/infNFe/det[2]/prod/vProd → vProd. */
     static String nomeDoCampo(String xpath) {
         if (xpath == null) {
             return null;

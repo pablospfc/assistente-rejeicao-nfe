@@ -10,10 +10,6 @@ import org.springframework.context.annotation.Configuration;
 import java.time.Clock;
 import java.time.Duration;
 
-/**
- * Liga as classes de validação ao Spring. Elas próprias não dependem do
- * framework, o que permite testá-las com um simples {@code new}.
- */
 @Configuration
 public class ConfiguracaoValidacao {
 

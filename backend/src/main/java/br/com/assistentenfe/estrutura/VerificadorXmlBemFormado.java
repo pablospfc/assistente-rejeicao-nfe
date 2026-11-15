@@ -14,10 +14,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-/**
- * Rejeição 243: lê o XML em memória com um parser seguro (sem DOCTYPE nem
- * entidades externas, o que evita ataques XXE).
- */
 public final class VerificadorXmlBemFormado {
 
     public static final String CODIGO = "243";
@@ -53,7 +49,6 @@ public final class VerificadorXmlBemFormado {
         return fabrica;
     }
 
-    /** Evita que o parser imprima "[Fatal Error]" no console; o erro chega pela exceção. */
     private static final ErrorHandler SILENCIOSO = new ErrorHandler() {
         @Override
         public void warning(SAXParseException e) {

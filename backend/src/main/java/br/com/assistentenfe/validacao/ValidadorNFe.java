@@ -14,10 +14,6 @@ import org.w3c.dom.Document;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Orquestra a validação: estrutura primeiro, depois as regras de negócio.
- * Se o XML não for bem formado (243), nada mais roda. O XML só existe em memória.
- */
 public final class ValidadorNFe {
 
     private final VerificadorXmlBemFormado leitor = new VerificadorXmlBemFormado();
@@ -44,7 +40,6 @@ public final class ValidadorNFe {
         ocorrencias.addAll(schema.validar(documento));
         ocorrencias.addAll(assinatura.verificar(documento));
 
-        // As regras rodam mesmo com erro de schema, para mostrar todos os problemas de uma vez.
         NFe nfe = new NFe(documento);
         for (RegraValidacao regra : regras) {
             ocorrencias.addAll(regra.validar(nfe));

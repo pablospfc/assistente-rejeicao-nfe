@@ -11,11 +11,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Rejeição 404: a NF-e não admite prefixos de namespace nos elementos
- * (ex.: {@code <nfe:NFe>} ou {@code <ds:Signature>}). Gera uma ocorrência por
- * prefixo usado, apontando o primeiro elemento em que ele aparece.
- */
 public final class VerificadorNamespace {
 
     public static final String CODIGO = "404";

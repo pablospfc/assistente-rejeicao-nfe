@@ -1,4 +1,3 @@
-/** Uma linha do XML indentado, ligada ao elemento do DOM que ela representa. */
 export interface LinhaXml {
   nivel: number;
   tipo: 'abre' | 'fecha' | 'folha' | 'comentario';
@@ -8,10 +7,6 @@ export interface LinhaXml {
   elemento: Element | null;
 }
 
-/**
- * Transforma o DOM em linhas indentadas. O destaque é feito pelo elemento (identidade
- * do nó), não por busca de texto, o que funciona também com NF-e escritas numa linha só.
- */
 export function linhasDoXml(documento: Document): LinhaXml[] {
   const linhas: LinhaXml[] = [];
   percorrer(documento.documentElement, 0, linhas);

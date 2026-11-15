@@ -20,7 +20,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class RegrasIdentificacaoTest {
 
-    /** "Agora" fixo: 12/11/2026 09:00 em -03:00. */
     private static final Clock RELOGIO = Clock.fixed(Instant.parse("2026-11-12T12:00:00Z"), ZoneOffset.UTC);
 
     private final RegraValidacao regra703 = new Regra703DataEmissao(RELOGIO, Duration.ofMinutes(5));
@@ -48,8 +47,6 @@ class RegrasIdentificacaoTest {
         }
     }
 
-    // --- 703: data-hora de emissão ----------------------------------------------------
-
     @Test
     void emissaoNoFuturoDispara703() {
         String xml = comDhEmi("2026-11-12T10:00:00-03:00");
@@ -65,7 +62,6 @@ class RegrasIdentificacaoTest {
     @ParameterizedTest
     @ValueSource(strings = {"2026-11-12T09:00:00-03:00", "2026-11-12T09:04:00-03:00", "2026-11-12T09:05:00-03:00"})
     void diferencaDeAteCincoMinutosPassa(String dhEmi) {
-        // MOC 7.0: tolerância de até 5 minutos pelo sincronismo de horário.
         assertThat(regra703.validar(nfe(comDhEmi(dhEmi)))).isEmpty();
     }
 
@@ -83,7 +79,6 @@ class RegrasIdentificacaoTest {
 
     @Test
     void fusoDoDhEmiEhRespeitado() {
-        // 12:04 em UTC é o mesmo instante que 09:04 em -03:00: dentro da tolerância.
         assertThat(regra703.validar(nfe(comDhEmi("2026-11-12T12:04:00+00:00")))).isEmpty();
     }
 
@@ -98,8 +93,6 @@ class RegrasIdentificacaoTest {
     private String comDhEmi(String dhEmi) {
         return trocar(base, "2026-11-02T10:00:00-03:00", dhEmi);
     }
-
-    // --- 207 e 208: CNPJ ----------------------------------------------------------------
 
     @Test
     void cnpjNumericoDoEmitenteInvalidoDispara207() {
@@ -140,11 +133,8 @@ class RegrasIdentificacaoTest {
 
     @Test
     void destinatarioSemCnpjNaoPassaPelo208() {
-        // No XML de base, o destinatário é pessoa física.
         assertThat(regra208.validar(nfe(base))).isEmpty();
     }
-
-    // --- 237: CPF -----------------------------------------------------------------------
 
     @ParameterizedTest
     @ValueSource(strings = {"11144477736", "11111111111"})
@@ -162,8 +152,6 @@ class RegrasIdentificacaoTest {
     void destinatarioSemCpfNaoPassaPelo237() {
         assertThat(regra237.validar(nfe(alfanumericoSp))).isEmpty();
     }
-
-    // --- 209 e 210: IE ------------------------------------------------------------------
 
     @Test
     void ieDoEmitenteInvalidaDispara209() {
@@ -186,7 +174,6 @@ class RegrasIdentificacaoTest {
 
     @Test
     void ieDoEmitenteZeradaNaoEh209() {
-        // MOC 7.0: IE do emitente com zeros é o 229, fora do escopo.
         String xml = trocar(base, "<IE>123456789</IE>", "<IE>000000000</IE>");
 
         assertThat(regra209.validar(nfe(xml))).isEmpty();

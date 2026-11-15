@@ -1,14 +1,8 @@
-/** Alvo de um XPath da ocorrência: o elemento e, se for o caso, o atributo. */
 export interface AlvoXPath {
   elemento: Element;
   atributo: string | null;
 }
 
-/**
- * Resolve os XPath gerados pelo backend: nomes locais (sem namespace), índice só quando
- * há irmãos de mesmo nome e atributo no fim. Ex.: /NFe/infNFe/det[2]/prod/vProd, /NFe/infNFe/@Id.
- * Devolve null se o caminho não existir no documento.
- */
 export function resolverXPath(documento: Document, xpath: string | null): AlvoXPath | null {
   if (!xpath?.startsWith('/')) {
     return null;
@@ -45,7 +39,6 @@ function lerPasso(passo: string): { nome: string; indice: number } {
   return m ? { nome: m[1], indice: m[2] ? Number(m[2]) : 1 } : { nome: passo, indice: 1 };
 }
 
-/** Linha do erro 243, informada pelo backend como "linha L, coluna C". */
 export function linhaDoErro(valorEncontrado: string | null): number | null {
   const m = /linha (\d+)/.exec(valorEncontrado ?? '');
   return m ? Number(m[1]) : null;

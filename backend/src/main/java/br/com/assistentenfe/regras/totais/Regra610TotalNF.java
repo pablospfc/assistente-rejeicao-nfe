@@ -13,20 +13,6 @@ import java.util.Optional;
 
 import static br.com.assistentenfe.regras.totais.RegraSomaDosItens.ICMS_TOT;
 
-/**
- * 610: o vNF deve ser igual a (MOC 7.0, Anexo I, W16-10):
- * <pre>
- *   vProd − vDesc − vICMSDeson + vST + vFCPST + vFrete + vSeg + vOutro
- *   + vII + vIPI + vIPIDevol + vServ
- * </pre>
- * <ul>
- *   <li>Exceção 1: faturamento direto de veículos novos ({@code tpOp = 2}) não soma vST, vFCPST e vIPIDevol.</li>
- *   <li>Exceção 2: não se aplica a operações de importação (algum CFOP iniciado por 3).</li>
- *   <li>Exceção 3: não rejeita se o vICMSDeson não tiver sido subtraído.</li>
- * </ul>
- * Tolerância de R$ 0,50 para mais ou para menos, aplicada à regra inteira (nota (*3), D016).
- * Premissa da Reforma Tributária: a fórmula não inclui IBS, CBS nem IS (D015).
- */
 public final class Regra610TotalNF implements RegraValidacao {
 
     private static final BigDecimal TOLERANCIA = new BigDecimal("0.50");
@@ -77,7 +63,6 @@ public final class Regra610TotalNF implements RegraValidacao {
         return Valor.diferenca(informado, calculado).compareTo(TOLERANCIA) <= 0;
     }
 
-    /** vServ (W18) fica em ISSQNtot, que é opcional: ausente vale zero; presente e inválido ignora a regra. */
     private static Optional<BigDecimal> vServ(NFe nfe) {
         Optional<String> texto = nfe.texto("/NFe/infNFe/total/ISSQNtot/vServ");
         return texto.isEmpty() ? Optional.of(BigDecimal.ZERO) : texto.flatMap(Valor::ler);

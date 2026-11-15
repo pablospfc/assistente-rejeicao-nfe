@@ -5,7 +5,6 @@ import br.com.assistentenfe.dominio.ItemNFe;
 import java.util.Optional;
 import java.util.Set;
 
-/** 532: vICMS (W04) = soma de vICMS (N17) dos itens, sem os CST 40, 41 e 50 (Anexo I, W04; NT 2010/007). */
 public final class Regra532TotalIcms extends RegraSomaDosItens {
 
     private static final Set<String> CST_FORA_DO_TOTAL = Set.of("40", "41", "50");

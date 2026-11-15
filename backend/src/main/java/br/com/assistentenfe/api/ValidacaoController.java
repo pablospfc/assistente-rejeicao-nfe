@@ -18,11 +18,6 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Recebe o XML, valida em memória e devolve o diagnóstico. O arquivo não é
- * gravado: o upload fica em memória (ver {@code application.yml}) e é descartado
- * ao fim da requisição.
- */
 @RestController
 @RequestMapping("/api/validacoes")
 public class ValidacaoController {

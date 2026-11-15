@@ -8,7 +8,6 @@ import br.com.assistentenfe.regras.RegraValidacao;
 
 import java.util.List;
 
-/** 208: CNPJ do destinatário (numérico ou alfanumérico) com dígito inválido. */
 public final class Regra208CnpjDestinatario implements RegraValidacao {
 
     private static final String CAMPO = "/NFe/infNFe/dest/CNPJ";

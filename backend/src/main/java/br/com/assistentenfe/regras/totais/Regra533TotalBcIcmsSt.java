@@ -4,7 +4,6 @@ import br.com.assistentenfe.dominio.ItemNFe;
 
 import java.util.Optional;
 
-/** 533: vBCST (W05) = soma de vBCST (N21) do grupo de ICMS de cada item (Anexo I, W05). */
 public final class Regra533TotalBcIcmsSt extends RegraSomaDosItens {
 
     @Override

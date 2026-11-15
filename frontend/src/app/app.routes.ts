@@ -4,7 +4,6 @@ import { DiagnosticoPagina } from './diagnostico/diagnostico';
 import { SessaoDiagnostico } from './diagnostico/sessao-diagnostico';
 import { Envio } from './envio/envio';
 
-/** O diagnóstico só existe em memória: sem validação (ex.: página recarregada), volta ao envio. */
 export const exigeValidacao: CanActivateFn = () =>
   inject(SessaoDiagnostico).temValidacao() || inject(Router).createUrlTree(['/']);
 

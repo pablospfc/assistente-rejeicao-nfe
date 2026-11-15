@@ -30,7 +30,6 @@ import java.time.Clock;
 import java.time.Duration;
 import java.util.List;
 
-/** Lista única das regras de negócio, na ordem em que aparecem no diagnóstico. */
 public final class RegrasDisponiveis {
 
     private RegrasDisponiveis() {
@@ -39,17 +38,14 @@ public final class RegrasDisponiveis {
     public static List<RegraValidacao> todas(Clock relogio, Duration toleranciaDhEmi) {
         TabelaCfop tabelaCfop = TabelaCfop.carregar();
         return List.of(
-                // Chave de acesso
                 new Regra502IdDaChave(),
                 new Regra253DigitoDaChave(),
-                // Identificação
                 new Regra703DataEmissao(relogio, toleranciaDhEmi),
                 new Regra207CnpjEmitente(),
                 new Regra208CnpjDestinatario(),
                 new Regra237CpfDestinatario(),
                 new Regra209IeEmitente(),
                 new Regra210IeDestinatario(),
-                // Totais e cálculos
                 new Regra564TotalProdutos(),
                 new Regra531TotalBcIcms(),
                 new Regra532TotalIcms(),
@@ -61,7 +57,6 @@ public final class RegrasDisponiveis {
                 new Regra537TotalDesconto(),
                 new Regra538TotalIpi(),
                 new Regra610TotalNF(),
-                // Regras da operação
                 new Regra321DevolucaoSemReferencia(),
                 new Regra327CfopNaDevolucao(tabelaCfop),
                 new Regra328CfopDeDevolucaoForaDaDevolucao(tabelaCfop),

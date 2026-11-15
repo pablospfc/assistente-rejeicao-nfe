@@ -8,11 +8,6 @@ import br.com.assistentenfe.regras.identificacao.ie.EstrategiasIE;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Conferência comum às rejeições 209 e 210: escolhe a estratégia pela UF do
- * endereço e aplica à IE. Sem IE, sem UF ou sem estratégia para a UF, a regra é ignorada.
- * O valor esperado da ocorrência é a UF cuja regra foi aplicada.
- */
 final class ConferenciaIE {
 
     private ConferenciaIE() {

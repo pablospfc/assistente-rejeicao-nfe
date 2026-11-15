@@ -8,10 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * NF-e já lida em memória. Envolve o DOM em vez de classes geradas (JAXB)
- * para que as regras de negócio funcionem mesmo quando o XML não passa no XSD.
- */
 public final class NFe {
 
     private final Document documento;
@@ -20,27 +16,20 @@ public final class NFe {
         this.documento = documento;
     }
 
-    /**
-     * Lê o texto de um campo pelo caminho de nomes locais,
-     * ex.: {@code texto("/NFe/infNFe/ide/cUF")}. Ignora namespaces.
-     */
     public Optional<String> texto(String caminho) {
         return elemento(caminho).map(Element::getTextContent);
     }
 
-    /** Lê um campo numérico; vazio se o campo faltar ou não for um número. */
     public Optional<BigDecimal> decimal(String caminho) {
         return texto(caminho).flatMap(Valor::ler);
     }
 
-    /** Lê um atributo, ex.: {@code atributo("/NFe/infNFe", "Id")}. */
     public Optional<String> atributo(String caminhoElemento, String nome) {
         return elemento(caminhoElemento)
                 .filter(e -> e.hasAttribute(nome))
                 .map(e -> e.getAttribute(nome));
     }
 
-    /** Os itens ({@code det}) da NF-e, na ordem do XML. */
     public List<ItemNFe> itens() {
         List<Element> dets = elemento("/NFe/infNFe").map(i -> Caminho.filhos(i, "det")).orElse(List.of());
         List<ItemNFe> itens = new ArrayList<>();
@@ -50,7 +39,6 @@ public final class NFe {
         return itens;
     }
 
-    /** Todos os filhos de mesmo nome sob um elemento, ex.: {@code filhos("/NFe/infNFe/ide", "NFref")}. */
     public List<Element> filhos(String caminhoPai, String nomeLocal) {
         return elemento(caminhoPai).map(p -> Caminho.filhos(p, nomeLocal)).orElse(List.of());
     }

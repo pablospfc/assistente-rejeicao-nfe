@@ -21,7 +21,6 @@ import static br.com.assistentenfe.XmlDeTeste.trocar;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-/** Rejeição 297. Todas as mutações são aplicadas depois de assinar. */
 class VerificadorAssinaturaTest {
 
     private final VerificadorAssinatura verificador = new VerificadorAssinatura();
@@ -36,8 +35,6 @@ class VerificadorAssinaturaTest {
     void xmlsDeBaseAssinadosPassam(String nome) throws Exception {
         assertThat(verificar(XmlDeTeste.valido(nome))).isEmpty();
     }
-
-    // --- Mutações do 297 -------------------------------------------------------------------
 
     @Test
     void campoAlteradoDepoisDeAssinar() throws Exception {
@@ -56,7 +53,6 @@ class VerificadorAssinaturaTest {
 
     @Test
     void digestValueAlterado() throws Exception {
-        // O DigestValue está dentro do SignedInfo, que é o que o SignatureValue assina.
         String xml = alterarConteudo(base, "DigestValue", 5);
 
         assertThat(verificar(xml)).singleElement()
@@ -81,11 +77,8 @@ class VerificadorAssinaturaTest {
                 .satisfies(o -> esperado(o, "valorDaAssinatura", "/NFe/Signature/SignatureValue"));
     }
 
-    // --- Casos em que o 297 não se aplica ----------------------------------------------------
-
     @Test
     void assinaturaDePreenchimentoDoDiscoEhIgnorada() throws Exception {
-        // O certificado "AAAA" não pode ser lido: seria um código de certificado (290), fora do escopo.
         assertThat(verificar(XmlDeTeste.noDisco(XmlDeTeste.BASE))).isEmpty();
     }
 
@@ -95,8 +88,6 @@ class VerificadorAssinaturaTest {
 
         assertThat(verificar(xml)).isEmpty();
     }
-
-    // --- Proteções da validação com SHA-1 (D021) ------------------------------------------
 
     @Test
     void referenciaExternaNaoEhLida() throws Exception {
@@ -141,7 +132,6 @@ class VerificadorAssinaturaTest {
         assertThat(o.xpath()).isEqualTo(xpath);
     }
 
-    /** Troca um caractere base64 na posição indicada do conteúdo do elemento. */
     private static String alterarConteudo(String xml, String elemento, int posicao) {
         Matcher m = Pattern.compile("<" + elemento + ">([^<]+)</" + elemento + ">").matcher(xml);
         if (!m.find()) {

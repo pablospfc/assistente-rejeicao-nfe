@@ -27,11 +27,6 @@ import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-/**
- * Assina uma NF-e em memória no padrão do MOC: enveloped, C14N, RSA-SHA1 e SHA-1,
- * com o certificado em KeyInfo/X509Data e sem prefixo de namespace (D022).
- * Uma assinatura que já exista (ex.: a de preenchimento dos XMLs de base) é substituída.
- */
 public final class AssinadorNFe {
 
     private static final String XMLDSIG = "http://www.w3.org/2000/09/xmldsig#";
@@ -77,7 +72,6 @@ public final class AssinadorNFe {
             Node proximo = n.getNextSibling();
             if (n instanceof Element e && "Signature".equals(e.getLocalName()) && XMLDSIG.equals(e.getNamespaceURI())) {
                 raiz.removeChild(n);
-                // Remove também a quebra de linha que antecedia a assinatura antiga.
                 if (proximo != null && proximo.getNodeType() == Node.TEXT_NODE && proximo.getTextContent().isBlank()) {
                     Node seguinte = proximo.getNextSibling();
                     raiz.removeChild(proximo);
@@ -112,9 +106,6 @@ public final class AssinadorNFe {
         transformador.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
         StringWriter saida = new StringWriter();
         transformador.transform(new DOMSource(documento), new StreamResult(saida));
-        // No Windows o serializador grava CRLF. Volta para LF, como nos arquivos de base, para as
-        // mutações por trecho de texto continuarem valendo. A leitura do XML normaliza CRLF para LF,
-        // então o digest não muda.
         return saida.toString().replace("\r\n", "\n");
     }
 }

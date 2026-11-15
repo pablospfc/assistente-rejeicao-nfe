@@ -7,10 +7,6 @@ import br.com.assistentenfe.regras.RegraValidacao;
 
 import java.util.List;
 
-/**
- * 598: em homologação ({@code tpAmb = 2}), a razão social do destinatário deve ser
- * o texto padrão (MOC 7.0, Anexo I, E04; NT 2011/002). Substitui o 373, que é só da NFC-e (D016).
- */
 public final class Regra598RazaoSocialHomologacao implements RegraValidacao {
 
     static final String TEXTO_HOMOLOGACAO = "NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL";

@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-/** Operações sobre o DOM usadas pelas mutações, independentes dos valores de cada XML de base. */
 final class Dom {
 
     static final String NS_NFE = "http://www.portalfiscal.inf.br/nfe";
@@ -54,7 +53,6 @@ final class Dom {
         }
     }
 
-    /** Elemento pelo caminho de nomes locais a partir da raiz, ex.: "/NFe/infNFe/ide/nNF". */
     static Optional<Element> elemento(Document documento, String caminho) {
         String[] partes = caminho.substring(1).split("/");
         Element atual = documento.getDocumentElement();
@@ -67,12 +65,10 @@ final class Dom {
         return Optional.ofNullable(atual);
     }
 
-    /** Campo do 1º item, ex.: {@code doPrimeiroItem(doc, "prod/vProd")}. */
     static Optional<Element> doPrimeiroItem(Document documento, String relativo) {
         return elemento(documento, "/NFe/infNFe/det/" + relativo);
     }
 
-    /** Grupo de ICMS do 1º item (ICMS00, ICMS10...). */
     static Optional<Element> grupoIcmsDoPrimeiroItem(Document documento) {
         return doPrimeiroItem(documento, "imposto/ICMS").flatMap(Dom::primeiroFilho);
     }
@@ -108,19 +104,16 @@ final class Dom {
         }
     }
 
-    /** Troca o último dígito por (dígito + 1) mod 10: o dígito verificador deixa de conferir. */
     static String outroUltimoDigito(String valor) {
         char ultimo = valor.charAt(valor.length() - 1);
         return valor.substring(0, valor.length() - 1) + (char) ('0' + (ultimo - '0' + 1) % 10);
     }
 
-    /** Recalcula só o cDV a partir dos campos, mantendo o Id (mutação do 502, D008). */
     static void recalcularCdv(Document documento) {
         ChaveAcesso chave = ChaveAcesso.compor(new NFe(documento)).orElseThrow();
         elemento(documento, "/NFe/infNFe/ide/cDV").orElseThrow().setTextContent(String.valueOf(chave.digitoCalculado()));
     }
 
-    /** Recompõe cDV e Id a partir dos campos, como faria o emissor (isolamento, ex.: no 207). */
     static void recomporChave(Document documento) {
         ChaveAcesso chave = ChaveAcesso.compor(new NFe(documento)).orElseThrow();
         String dv = String.valueOf(chave.digitoCalculado());

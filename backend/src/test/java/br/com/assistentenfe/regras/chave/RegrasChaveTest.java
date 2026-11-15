@@ -36,7 +36,6 @@ class RegrasChaveTest {
 
     @Test
     void campoDaChaveAlteradoDispara502() {
-        // Muda o nNF e recalcula o cDV: a chave composta fica coerente, mas o Id não (D008).
         int novoDv = DigitoVerificador.chaveAcesso("2126111122233300018155001000000002130405060");
         String xml = trocar(trocar(base, "<nNF>1</nNF>", "<nNF>2</nNF>"), "<cDV>1</cDV>", "<cDV>" + novoDv + "</cDV>");
 
@@ -61,7 +60,6 @@ class RegrasChaveTest {
 
     @Test
     void digitoErradoNoCdvENoIdDispara253() {
-        // cDV e último dígito do Id mudam juntos: o Id corresponde aos campos, mas o dígito não confere.
         String xml = trocar(trocar(base, "<cDV>1</cDV>", "<cDV>5</cDV>"),
                 "Id=\"NFe21261111222333000181550010000000011304050601\"",
                 "Id=\"NFe21261111222333000181550010000000011304050605\"");
@@ -97,7 +95,6 @@ class RegrasChaveTest {
 
     @Test
     void emitenteComCpfEhIgnorado() {
-        // D009: emitente pessoa física fica fora do escopo.
         String xml = trocar(base, "<CNPJ>11222333000181</CNPJ>\n      <xNome>EMPRESA", "<CPF>11144477735</CPF>\n      <xNome>EMPRESA");
 
         assertThat(regra502.validar(nfe(xml))).isEmpty();

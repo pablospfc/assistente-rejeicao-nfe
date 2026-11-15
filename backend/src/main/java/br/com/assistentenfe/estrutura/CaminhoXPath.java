@@ -3,10 +3,6 @@ package br.com.assistentenfe.estrutura;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-/**
- * Monta o XPath (por nomes locais) de um elemento do DOM, ex.:
- * {@code /NFe/infNFe/det[2]/prod/vProd}. O índice só aparece quando há irmãos de mesmo nome.
- */
 public final class CaminhoXPath {
 
     private CaminhoXPath() {

@@ -8,10 +8,8 @@ import { SessaoDiagnostico } from '../diagnostico/sessao-diagnostico';
 import { ValidacaoService } from '../diagnostico/validacao.service';
 import { AreaArquivo } from './area-arquivo';
 
-/** Mesmo limite do backend (spring.servlet.multipart.max-file-size). */
 export const TAMANHO_MAXIMO = 1024 * 1024;
 
-/** Tela 1: envio do XML. */
 @Component({
   selector: 'app-envio',
   imports: [AreaArquivo, MatCardModule, MatIconModule, MatProgressBarModule],
@@ -48,7 +46,6 @@ export class Envio {
   }
 }
 
-/** Verificações feitas no navegador antes de enviar; o backend repete as dele. */
 export function motivoDeRecusa(arquivo: File): string | null {
   if (!arquivo.name.toLowerCase().endsWith('.xml')) {
     return 'Envie um arquivo .xml com a NF-e.';

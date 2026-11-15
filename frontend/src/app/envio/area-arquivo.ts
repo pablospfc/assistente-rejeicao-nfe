@@ -2,7 +2,6 @@ import { Component, input, output, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
-/** Área de arrastar e soltar (o Material não tem um componente próprio), com seletor de arquivo. */
 @Component({
   selector: 'app-area-arquivo',
   imports: [MatButtonModule, MatIconModule],

@@ -2,13 +2,6 @@ package br.com.assistentenfe.regras.identificacao.ie;
 
 import br.com.assistentenfe.dominio.DigitoVerificador;
 
-/**
- * IE do Maranhão: 9 dígitos, começando por "12" (código do estado); o 9º é o
- * dígito verificador, por módulo 11 com pesos 9 a 2. Resto 0 ou 1 resulta em 0.
- *
- * <p>Fonte: SINTEGRA, "Conferência de Inscrições Estaduais — Maranhão",
- * http://www.sintegra.gov.br/Cad_Estados/cad_MA.html (exemplo: 120000385).
- */
 public final class IeMaranhao implements DigitoIE {
 
     @Override

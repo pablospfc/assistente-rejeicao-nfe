@@ -14,12 +14,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-/**
- * 528: em NF-e normal ({@code finNFe = 1}), para os CST 00, 10, 20 e 70, o vICMS do
- * item deve ser vBC × pICMS / 100, arredondado para duas casas, com tolerância de
- * R$ 0,01 para mais ou para menos (MOC 7.0, Anexo I, N17b-10 e nota (*4)).
- * Gera uma ocorrência por item.
- */
 public final class Regra528IcmsDoItem implements RegraValidacao {
 
     private static final Set<String> CSTS = Set.of("00", "10", "20", "70");

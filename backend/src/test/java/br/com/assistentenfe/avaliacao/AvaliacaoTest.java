@@ -13,13 +13,6 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * Avaliação completa (D023). Roda em todo {@code mvnw test} sem gravar nada e falha se o
- * controle negativo tiver ocorrências. O resultado de cada mutação é registrado, não
- * cobrado: casos fora do esperado vão para o relatório.
- *
- * <p>Para gravar os arquivos: {@code ./mvnw test -Dtest=AvaliacaoTest -Davaliacao.saida=../docs/avaliacao/final}
- */
 class AvaliacaoTest {
 
     private static List<Mutacao> mutacoes;

@@ -13,10 +13,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-/** O schema oficial carrega com todos os includes/imports resolvidos a partir de resources/xsd. */
 class CargaSchemaTest {
 
-    /** nfe_v4.00.xsd inclui o leiaute, que inclui os tipos básicos e importa o xmldsig. */
     private static final List<String> ARQUIVOS = List.of(
             "nfe_v4.00.xsd",
             "leiauteNFe_v4.00.xsd",

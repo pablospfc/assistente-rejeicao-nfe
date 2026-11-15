@@ -9,10 +9,6 @@ import br.com.assistentenfe.regras.RegraValidacao;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * 502: o atributo {@code Id} de {@code infNFe} deve ser "NFe" + a chave composta
- * a partir dos campos + {@code cDV}. Qualquer campo da chave alterado cai aqui (D008).
- */
 public final class Regra502IdDaChave implements RegraValidacao {
 
     @Override

@@ -12,11 +12,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-/**
- * 328: NF-e que não é de devolução nem complementar ({@code finNFe} diferente de 2 e 4,
- * modelo 55) não pode ter item com CFOP de devolução ({@code indDevol = 1} na Tabela
- * CFOP; MOC 7.0, Anexo I, I08-144). Gera uma ocorrência por item.
- */
 public final class Regra328CfopDeDevolucaoForaDaDevolucao implements RegraValidacao {
 
     private static final Set<String> FINALIDADES_QUE_ACEITAM = Set.of("2", "4");

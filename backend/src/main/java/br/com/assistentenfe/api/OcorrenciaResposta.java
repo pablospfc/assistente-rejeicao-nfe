@@ -3,7 +3,6 @@ package br.com.assistentenfe.api;
 import br.com.assistentenfe.dominio.Ocorrencia;
 import br.com.assistentenfe.explicacao.Explicacao;
 
-/** Uma ocorrência com sua explicação, como o frontend a recebe. */
 public record OcorrenciaResposta(
         String codigo,
         String xpath,

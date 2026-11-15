@@ -23,16 +23,8 @@ import java.util.regex.Pattern;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * Gera os XMLs de demonstração (Fase 6, D022/D027): os XMLs de base assinados e alguns
- * com erro, criados pelas mesmas mutações da avaliação, e os casos das figuras do artigo. Só grava com
- * {@code -Dexemplos.saida=<pasta>}; sem a propriedade, apenas confere os exemplos.
- *
- * <p>Uso: {@code ./mvnw test -Dtest=ExemplosAssinadosTest -Dexemplos.saida=../exemplos}
- */
 class ExemplosAssinadosTest {
 
-    /** Mutação → base usada no exemplo com erro (uma por grupo, mais o 243 para o visualizador de texto). */
     private static final Map<String, String> EXEMPLOS_COM_ERRO = new LinkedHashMap<>();
 
     static {
@@ -48,15 +40,9 @@ class ExemplosAssinadosTest {
 
     private static final Pattern X509 = Pattern.compile("<X509Certificate>([^<]+)</X509Certificate>");
 
-    /** Valida com o relógio real, como a aplicação fará ao receber o exemplo. */
     private final ValidadorNFe validador = new ValidadorNFe(ValidadorSchema.nfe400(),
             RegrasDisponiveis.todas(Clock.systemUTC(), Duration.ofMinutes(5)));
 
-    /**
-     * Os XMLs de base trazem um comentário dizendo que a assinatura é só de preenchimento (D006).
-     * Nos exemplos ela é real, então o comentário é trocado. Comentários ficam fora do infNFe e
-     * da canonicalização, e a troca não afeta a assinatura.
-     */
     private static final Pattern COMENTARIO_PREENCHIMENTO = Pattern.compile("<!--[^>]*apenas estrutural[^>]*-->");
     private static final String COMENTARIO_ASSINADA =
             "<!-- Assinada com certificado de teste autoassinado, sem valor fiscal (só o certificado público; D027). -->";
@@ -80,7 +66,6 @@ class ExemplosAssinadosTest {
         exemplos.addAll(figuras());
 
         for (Exemplo e : exemplos) {
-            // Só o certificado público em KeyInfo/X509Data; nunca a chave privada.
             assertThat(e.xml()).as(e.arquivo()).doesNotContain("PRIVATE KEY").doesNotContain("RSAKeyValue")
                     .doesNotContain("apenas estrutural");
             if (!e.arquivo().startsWith("erro-243")) {
@@ -92,10 +77,8 @@ class ExemplosAssinadosTest {
                 assertThat(e.codigos()).as(e.arquivo()).isNotEmpty();
             }
         }
-        // Figura 2: ocorrências nas duas camadas (Estrutura e Regras de negócio).
         assertThat(exemplos.stream().filter(e -> e.arquivo().equals("figura-2-varias-ocorrencias.xml")).findFirst()
                 .orElseThrow().codigos()).contains("225", "207", "610", "598");
-        // Figura 3: o 225 da base de devolução, em que o validador aponta o elemento seguinte (D024).
         assertThat(exemplos.stream().filter(e -> e.arquivo().equals("figura-3-225-devolucao.xml")).findFirst()
                 .orElseThrow().codigos()).containsExactly("225");
 
@@ -105,11 +88,9 @@ class ExemplosAssinadosTest {
         }
     }
 
-    /** Casos que viram figura no artigo (as capturas finais são feitas pelo autor). */
     private List<Exemplo> figuras() {
         String valido = XmlDeTeste.valido(XmlDeTeste.BASE);
 
-        // Várias mutações na mesma NF-e, todas do tipo "muta e reassina", com uma assinatura no fim.
         String varias = XmlDeTeste.valido(XmlDeTeste.INDUSTRIA);
         for (String id : List.of("M225-lista", "M207-dv", "M610-total", "M598-razao-social")) {
             Mutacao m = mutacao(id);

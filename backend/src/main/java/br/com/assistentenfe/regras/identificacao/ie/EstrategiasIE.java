@@ -6,7 +6,6 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-/** Estratégias de IE disponíveis, por UF. Para incluir uma UF, basta acrescentar sua classe aqui. */
 public final class EstrategiasIE {
 
     private static final Map<String, DigitoIE> POR_UF = List.of(

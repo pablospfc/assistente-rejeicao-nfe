@@ -4,7 +4,6 @@ import br.com.assistentenfe.dominio.ItemNFe;
 
 import java.util.Optional;
 
-/** 535: vFrete (W08) = soma de prod/vFrete (I15) dos itens (Anexo I, W12-10). */
 public final class Regra535TotalFrete extends RegraSomaDosItens {
 
     @Override

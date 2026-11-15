@@ -1,5 +1,3 @@
-/** Contrato da API POST /api/validacoes (backend: DiagnosticoResposta e OcorrenciaResposta). */
-
 export type Camada = 'ESTRUTURA' | 'REGRAS_NEGOCIO';
 
 export interface Ocorrencia {
@@ -19,7 +17,6 @@ export interface Diagnostico {
   camadas: Partial<Record<Camada, Ocorrencia[]>>;
 }
 
-/** Ordem e nomes das camadas, como no fluxo de validação. */
 export const CAMADAS: { chave: Camada; nome: string; icone: string }[] = [
   { chave: 'ESTRUTURA', nome: 'Estrutura e assinatura', icone: 'schema' },
   { chave: 'REGRAS_NEGOCIO', nome: 'Regras de negócio', icone: 'rule' },

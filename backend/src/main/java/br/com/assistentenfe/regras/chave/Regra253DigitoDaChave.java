@@ -9,7 +9,6 @@ import br.com.assistentenfe.regras.RegraValidacao;
 import java.util.List;
 import java.util.Optional;
 
-/** 253: o {@code cDV} deve ser o dígito verificador da chave composta a partir dos campos. */
 public final class Regra253DigitoDaChave implements RegraValidacao {
 
     @Override

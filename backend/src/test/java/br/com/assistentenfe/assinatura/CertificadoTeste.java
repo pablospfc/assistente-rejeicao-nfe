@@ -11,21 +11,14 @@ import java.security.cert.X509Certificate;
 import java.util.List;
 import java.util.UUID;
 
-/**
- * Certificado autoassinado gerado na própria execução dos testes, com o keytool do
- * JDK em uso ({@code java.home}/bin), sem depender do PATH nem de arquivo da máquina
- * do autor (D022). A pasta temporária é apagada ao fim da JVM.
- */
 public record CertificadoTeste(PrivateKey chavePrivada, X509Certificate certificado) {
 
     private static final String ALIAS = "nfe-teste";
 
-    /** Certificado padrão dos testes: gerado uma vez por execução. */
     public static CertificadoTeste padrao() {
         return Padrao.INSTANCIA;
     }
 
-    /** Gera um novo certificado (outra chave), ex.: para simular troca de certificado. */
     public static CertificadoTeste gerar(int bits) {
         try {
             Path pasta = Files.createTempDirectory("certificado-teste");
@@ -33,8 +26,6 @@ public record CertificadoTeste(PrivateKey chavePrivada, X509Certificate certific
             Path arquivo = pasta.resolve("certificado.p12");
             String senha = UUID.randomUUID().toString();
 
-            // Idioma fixo em inglês: no JDK 25, o aviso de chave fraca do keytool em pt-BR tem um
-            // erro de formatação (MissingFormatArgumentException) e o comando termina com falha (D028).
             Process keytool = new ProcessBuilder(List.of(keytool().toString(), "-J-Duser.language=en",
                     "-genkeypair", "-alias", ALIAS, "-keyalg", "RSA", "-keysize", String.valueOf(bits),
                     "-sigalg", "SHA256withRSA", "-validity", "3650",
@@ -60,7 +51,6 @@ public record CertificadoTeste(PrivateKey chavePrivada, X509Certificate certific
         }
     }
 
-    /** keytool do JDK que está rodando os testes. */
     static Path keytool() {
         boolean windows = System.getProperty("os.name").toLowerCase().contains("win");
         return Path.of(System.getProperty("java.home"), "bin", windows ? "keytool.exe" : "keytool");

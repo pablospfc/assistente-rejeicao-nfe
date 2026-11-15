@@ -46,8 +46,6 @@ class RegrasOperacaoTest {
         }
     }
 
-    // --- 321: devolução sem documento referenciado ------------------------------------------
-
     @Test
     void devolucaoSemNfrefDispara321() {
         String xml = trocar(devolucao, NF_REF, "");
@@ -60,7 +58,6 @@ class RegrasOperacaoTest {
 
     @Test
     void referenciaACteNaoBasta() {
-        // Interpretação do autor (D017): refCTe não está entre os documentos aceitos pelo Anexo I.
         String xml = trocar(devolucao, "<refNFe>21261144555666000181550010000000041637485965</refNFe>",
                 "<refCTe>21261144555666000181570010000000041637485965</refCTe>");
 
@@ -69,7 +66,6 @@ class RegrasOperacaoTest {
 
     @Test
     void referenciaComChaveSigilosaConta() {
-        // Interpretação do autor (D017): refNFeSig referencia uma NF-e.
         String xml = trocar(devolucao, "<refNFe>21261144555666000181550010000000041637485965</refNFe>",
                 "<refNFeSig>21261144555666000181550010000000041000000005</refNFeSig>");
 
@@ -90,8 +86,6 @@ class RegrasOperacaoTest {
 
         assertThat(regra321.validar(nfe(xml))).isEmpty();
     }
-
-    // --- 327: CFOP que não é de devolução numa NF-e de devolução --------------------------
 
     @Test
     void cfopDeVendaNaDevolucaoDispara327() {
@@ -126,11 +120,8 @@ class RegrasOperacaoTest {
         assertThat(regra327.validar(nfe(xml))).isEmpty();
     }
 
-    // --- 328: CFOP de devolução fora de uma NF-e de devolução --------------------------------
-
     @Test
     void cfopDeDevolucaoNumaVendaDispara328() {
-        // A primeira ocorrência de 5102 é o item 1 da NF-e de base, que tem dois itens.
         String xml = trocar(base, "<CFOP>5102</CFOP>", "<CFOP>5202</CFOP>");
 
         assertThat(regra328.validar(nfe(xml))).singleElement().satisfies(o -> {
@@ -155,8 +146,6 @@ class RegrasOperacaoTest {
 
         assertThat(regra328.validar(nfe(xml))).isEmpty();
     }
-
-    // --- 598: razão social em homologação ----------------------------------------------------
 
     @Test
     void razaoSocialRealEmHomologacaoDispara598() {
@@ -184,8 +173,6 @@ class RegrasOperacaoTest {
 
         assertThat(regra598.validar(nfe(xml))).isEmpty();
     }
-
-    // --- 441: descrição do pagamento 99 -------------------------------------------------------
 
     @ParameterizedTest
     @ValueSource(strings = {"", "<xPag> </xPag>"})

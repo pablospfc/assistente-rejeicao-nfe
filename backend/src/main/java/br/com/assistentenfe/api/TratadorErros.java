@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
-/** Erros da requisição (não da NF-e) com mensagens em português. */
 @RestControllerAdvice
 public class TratadorErros {
 

@@ -4,7 +4,6 @@ import br.com.assistentenfe.dominio.ItemNFe;
 
 import java.util.Optional;
 
-/** 564: vProd (W07) = soma de prod/vProd (I11) dos itens sujeitos ao ICMS com indTot = 1 (Anexo I, W07-10). */
 public final class Regra564TotalProdutos extends RegraSomaDosItens {
 
     @Override

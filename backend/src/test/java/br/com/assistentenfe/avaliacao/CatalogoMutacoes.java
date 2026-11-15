@@ -15,10 +15,6 @@ import java.util.regex.Pattern;
 import static br.com.assistentenfe.avaliacao.Mutacao.Assinatura.APOS_ASSINAR;
 import static br.com.assistentenfe.avaliacao.Mutacao.Assinatura.REASSINAR;
 
-/**
- * Catálogo de mutações da avaliação (Fase 5): pelo menos uma por código do escopo.
- * Cada mutação se aplica a todos os XMLs de base em que o campo existe (D023).
- */
 public final class CatalogoMutacoes {
 
     private static final String INF = "/NFe/infNFe/";
@@ -29,17 +25,12 @@ public final class CatalogoMutacoes {
     private CatalogoMutacoes() {
     }
 
-    /**
-     * Correções feitas no código por causa de um caso da avaliação, com a decisão que as
-     * registra. Aparecem no relatório final; a execução inicial fica guardada sem elas.
-     */
     public static List<String> correcoes() {
         return List.of();
     }
 
     public static List<Mutacao> todas() {
         return List.of(
-                // --- Estrutura e assinatura -------------------------------------------------
                 new Mutacao("M243-fechamento", "243", null,
                         "Remove o fechamento de uma tag (</natOp>)", null, APOS_ASSINAR, null,
                         noTexto("</natOp>", "")),
@@ -64,7 +55,6 @@ public final class CatalogoMutacoes {
                         "Altera um caractere do SignatureValue", "/NFe/Signature/SignatureValue", APOS_ASSINAR, null,
                         CatalogoMutacoes::alterarSignatureValue),
 
-                // --- Chave de acesso (D008) ----------------------------------------------------
                 new Mutacao("M502-nNF", "502", null,
                         "Soma 1 ao nNF e recalcula o cDV, sem atualizar o Id", INF + "@Id", REASSINAR,
                         "cDV recalculado, para isolar o 502 do 253 (D008)",
@@ -83,7 +73,6 @@ public final class CatalogoMutacoes {
                             infNFe.setAttribute("Id", id.substring(0, id.length() - 1) + novo);
                         }))),
 
-                // --- Identificação -------------------------------------------------------------
                 new Mutacao("M703-futuro", "703", null,
                         "Informa dhEmi uma hora depois do instante da validação", IDE + "dhEmi", REASSINAR, null,
                         noDom(campo(IDE + "dhEmi", e -> e.setTextContent(Avaliador.DH_EMI_FUTURO)))),
@@ -110,7 +99,6 @@ public final class CatalogoMutacoes {
                         "Altera o dígito verificador da IE do destinatário", INF + "dest/IE", REASSINAR, null,
                         noDom(campo(INF + "dest/IE", e -> e.setTextContent(Dom.outroUltimoDigito(e.getTextContent()))))),
 
-                // --- Totais e cálculos ---------------------------------------------------------
                 new Mutacao("M564-item", "564", null,
                         "Soma R$ 1,00 ao vProd do 1º item", TOT + "vProd", REASSINAR, null,
                         noDom(campo(INF + "det/prod/vProd", e -> Dom.somar(e, "1.00")))),
@@ -147,7 +135,6 @@ public final class CatalogoMutacoes {
                         "Soma R$ 1,00 ao vNF, acima da tolerância de R$ 0,50", TOT + "vNF", REASSINAR, null,
                         noDom(campo(TOT + "vNF", e -> Dom.somar(e, "1.00")))),
 
-                // --- Regras da operação --------------------------------------------------------
                 new Mutacao("M321-sem-NFref", "321", null,
                         "Remove o documento referenciado de uma NF-e de devolução", IDE + "finNFe", REASSINAR, null,
                         noDom(CatalogoMutacoes::removerNFref)),
@@ -164,8 +151,6 @@ public final class CatalogoMutacoes {
                         "Remove a descrição (xPag) de um pagamento 99 (Outros)", INF + "pag/detPag[2]/tPag", REASSINAR, null,
                         noDom(CatalogoMutacoes::removerXPagDoPagamento99)));
     }
-
-    // --- Construtores de aplicação ------------------------------------------------------------
 
     private static Aplicacao noDom(Predicate<Document> mutar) {
         return xml -> {
@@ -186,7 +171,6 @@ public final class CatalogoMutacoes {
         };
     }
 
-    /** Aplica a alteração se o campo existir. */
     private static Predicate<Document> campo(String caminho, Consumer<Element> alterar) {
         return documento -> Dom.elemento(documento, caminho).map(e -> {
             alterar.accept(e);
@@ -203,8 +187,6 @@ public final class CatalogoMutacoes {
                 }).orElse(false);
     }
 
-    // --- Mutações com mais de um passo ----------------------------------------------------------
-
     private static Optional<String> alterarSignatureValue(String xml) {
         Matcher m = Pattern.compile("<SignatureValue>([^<]{20,})</SignatureValue>").matcher(xml);
         if (!m.find()) {
@@ -215,7 +197,6 @@ public final class CatalogoMutacoes {
         return Optional.of(xml.substring(0, m.start(1)) + new String(valor) + xml.substring(m.end(1)));
     }
 
-    /** 528: só se aplica a NF-e normal e CST 00/10/20/70, como a regra. */
     private static boolean icmsDoItemComTotal(Document documento) {
         boolean normal = Dom.elemento(documento, IDE + "finNFe").map(e -> e.getTextContent().equals("1")).orElse(false);
         Optional<Element> grupo = Dom.grupoIcmsDoPrimeiroItem(documento);
@@ -249,7 +230,6 @@ public final class CatalogoMutacoes {
         return trocarCfop(documento, "1", "202");
     }
 
-    /** Troca o CFOP do 1º item mantendo o 1º dígito (estadual ou interestadual), se finNFe for o indicado. */
     private static boolean trocarCfop(Document documento, String finNFe, String final3) {
         boolean finalidade = Dom.elemento(documento, IDE + "finNFe").map(e -> e.getTextContent().equals(finNFe)).orElse(false);
         Optional<Element> cfop = Dom.doPrimeiroItem(documento, "prod/CFOP");

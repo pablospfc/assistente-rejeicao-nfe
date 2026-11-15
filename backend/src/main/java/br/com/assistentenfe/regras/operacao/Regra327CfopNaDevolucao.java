@@ -12,12 +12,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-/**
- * 327: em NF-e de devolução ({@code finNFe = 4}, modelo 55), todo item deve ter CFOP
- * de devolução, ou seja, {@code indDevol = 1} na Tabela CFOP (MOC 7.0, Anexo I, I08-140).
- * Exceção: CFOP 1.949 e 2.949 são aceitos na devolução de venda para não contribuinte
- * ({@code indIEDest = 9}). Gera uma ocorrência por item.
- */
 public final class Regra327CfopNaDevolucao implements RegraValidacao {
 
     private static final Set<String> CFOP_NAO_CONTRIBUINTE = Set.of("1949", "2949");

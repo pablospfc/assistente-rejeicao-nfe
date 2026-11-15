@@ -6,7 +6,6 @@ import br.com.assistentenfe.regras.RegraValidacao;
 
 import java.util.List;
 
-/** 210: IE do destinatário inválida para a UF do destinatário. */
 public final class Regra210IeDestinatario implements RegraValidacao {
 
     @Override

@@ -12,14 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipFile;
 
-/**
- * Converte a planilha da Tabela CFOP do Portal da NF-e (Informe Técnico 2023.002)
- * para TSV, sem alterar o conteúdo: todas as linhas e colunas são mantidas, na
- * mesma ordem. As datas de vigência, gravadas pelo Excel como número serial, são
- * escritas no formato ISO (aaaa-mm-dd). Usa só o JDK, lendo o .xlsx como zip de XMLs.
- *
- * <p>Uso: {@code java ferramentas/ConverterTabelaCfop.java <planilha.xlsx> <saida.tsv>}
- */
 public class ConverterTabelaCfop {
 
     private static final LocalDate EPOCA_EXCEL = LocalDate.of(1899, 12, 30);
@@ -60,7 +52,6 @@ public class ConverterTabelaCfop {
                         valor = EPOCA_EXCEL.plusDays(Long.parseLong(valor)).toString();
                     }
                     if (coluna >= valores.length) {
-                        // Células formatadas além das colunas do cabeçalho: só aceitas se estiverem vazias.
                         if (!valor.isBlank()) {
                             throw new IllegalStateException("Valor fora das colunas do cabeçalho na célula " + celula.getAttribute("r"));
                         }
@@ -85,7 +76,6 @@ public class ConverterTabelaCfop {
         }
     }
 
-    /** "G12" → 6 (coluna A = 0). */
     private static int indiceDaColuna(String referencia) {
         int indice = 0;
         for (char ch : referencia.toCharArray()) {

@@ -7,13 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-/** Navegação no DOM por nomes locais, ignorando namespaces. */
 final class Caminho {
 
     private Caminho() {
     }
 
-    /** Desce pelo caminho relativo (ex.: "prod/vProd"), sempre pelo primeiro filho de cada nome. */
     static Optional<Element> descer(Element origem, String relativo) {
         Element atual = origem;
         for (String parte : relativo.split("/")) {

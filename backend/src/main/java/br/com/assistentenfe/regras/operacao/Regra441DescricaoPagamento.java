@@ -10,11 +10,6 @@ import org.w3c.dom.Node;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 441: quando o meio de pagamento é 99 (Outros), a descrição {@code xPag} é
- * obrigatória (NT 2020.006 v1.30, regra YA02a-10, modelos 55 e 65). O XSD não
- * pega esse caso, porque {@code xPag} é opcional. Gera uma ocorrência por detPag.
- */
 public final class Regra441DescricaoPagamento implements RegraValidacao {
 
     @Override

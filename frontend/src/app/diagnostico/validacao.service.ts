@@ -3,7 +3,6 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { Diagnostico } from './modelos';
 
-/** Envia o XML para validação. O arquivo vai só para o backend da aplicação. */
 @Injectable({ providedIn: 'root' })
 export class ValidacaoService {
   private readonly http = inject(HttpClient);
@@ -17,7 +16,6 @@ export class ValidacaoService {
   }
 }
 
-/** Mensagem em português para erros da requisição (não da NF-e). */
 export function mensagemDeErro(erro: HttpErrorResponse): string {
   if (erro.status === 0) {
     return 'Não foi possível falar com o servidor de validação. Verifique se o backend está rodando.';

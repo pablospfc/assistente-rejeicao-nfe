@@ -29,17 +29,6 @@ import java.security.interfaces.RSAPublicKey;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Rejeição 297: confere a assinatura digital da NF-e (MOC 7.0, Anexo I, F02).
- * Cobre o valor da assinatura e o digest do infNFe (D020), usando a chave pública
- * do certificado que vem no próprio KeyInfo. Cadeia, validade e revogação do
- * certificado ficam fora do escopo offline.
- *
- * <p>O leiaute fixa RSA-SHA1/SHA-1, que a validação segura do JDK recusa. Ela é
- * desligada <em>só neste contexto de validação</em>, e as proteções que ela daria
- * são feitas aqui (D021): só a referência ao próprio infNFe é resolvida, a chave
- * vem apenas do X509Certificate e precisa ter ao menos 1024 bits.
- */
 public final class VerificadorAssinatura {
 
     public static final String CODIGO = "297";
@@ -73,22 +62,15 @@ public final class VerificadorAssinatura {
             if (digestConfere && valorConfere) {
                 return List.of();
             }
-            // SignatureValue válido e digest inválido: o SignedInfo está íntegro, mas o infNFe mudou.
             if (valorConfere) {
                 return List.of(ocorrencia("/NFe/infNFe", "conteudoAlterado"));
             }
             return List.of(ocorrencia("/NFe/Signature/SignatureValue", "valorDaAssinatura"));
         } catch (MarshalException | XMLSignatureException | ChaveIndisponivel e) {
-            // Assinatura ilegível, referência externa, certificado ilegível ou chave fraca:
-            // não há como calcular a assinatura (225 ou códigos de certificado fora do escopo).
             return List.of();
         }
     }
 
-    /**
-     * Confere o SignatureValue. Uma falha ao obter a chave impede a conferência; qualquer
-     * outra falha (ex.: valor com tamanho incompatível com a chave) significa que não confere.
-     */
     private static boolean valorConfere(XMLSignature xmlSignature, DOMValidateContext contexto) throws ChaveIndisponivel {
         try {
             return xmlSignature.getSignatureValue().validate(contexto);
@@ -100,7 +82,6 @@ public final class VerificadorAssinatura {
         }
     }
 
-    /** A chave de validação não pôde ser obtida do certificado. */
     private static final class ChaveIndisponivel extends Exception {
     }
 
@@ -118,7 +99,6 @@ public final class VerificadorAssinatura {
         return Optional.empty();
     }
 
-    /** Usa só a chave pública do X509Certificate do KeyInfo, RSA com ao menos 1024 bits. */
     static final class ChaveDoCertificado extends KeySelector {
 
         @Override
@@ -143,7 +123,6 @@ public final class VerificadorAssinatura {
         }
     }
 
-    /** Resolve apenas a referência ao próprio infNFe; nenhuma URI externa (file:, http:) é lida. */
     static final class SomenteInfNFe implements URIDereferencer {
 
         private final String referenciaPermitida;

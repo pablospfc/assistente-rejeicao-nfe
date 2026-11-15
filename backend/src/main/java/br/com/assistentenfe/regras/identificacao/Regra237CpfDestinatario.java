@@ -8,7 +8,6 @@ import br.com.assistentenfe.regras.RegraValidacao;
 
 import java.util.List;
 
-/** 237: CPF do destinatário com dígito inválido ou com todos os dígitos iguais. */
 public final class Regra237CpfDestinatario implements RegraValidacao {
 
     private static final String CAMPO = "/NFe/infNFe/dest/CPF";

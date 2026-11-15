@@ -15,7 +15,6 @@ import static br.com.assistentenfe.XmlDeTeste.nfe;
 import static br.com.assistentenfe.XmlDeTeste.trocar;
 import static org.assertj.core.api.Assertions.assertThat;
 
-/** Mutações sobre a NF-e de indústria, que tem todos os campos de totais preenchidos. */
 class RegrasTotaisTest {
 
     private static final String ICMS_TOT = "/NFe/infNFe/total/ICMSTot/";
@@ -43,8 +42,6 @@ class RegrasTotaisTest {
         }
     }
 
-    // --- Somatórios: uma mutação no item faz o total divergir ---------------------------
-
     @ParameterizedTest(name = "{0}: item {1} → {2}")
     @CsvSource(delimiter = '|', value = {
             "564 | <vProd>1000.00</vProd>     | <vProd>1001.00</vProd>     | vProd  | 1700.00 | 1701.00",
@@ -58,7 +55,6 @@ class RegrasTotaisTest {
             "538 | <vIPI>50.00</vIPI>         | <vIPI>51.00</vIPI>         | vIPI   | 150.00  | 151.00"})
     void valorDoItemAlteradoDisparaACodigoDoTotal(String codigo, String de, String para,
                                                   String campo, String total, String soma) {
-        // A primeira ocorrência de cada trecho está nos itens (o total vem depois no XML).
         String xml = trocar(industria, de, para);
 
         RegraValidacao regra = regras().stream().filter(r -> r.codigoRejeicao().equals(codigo)).findFirst().orElseThrow();
@@ -84,7 +80,6 @@ class RegrasTotaisTest {
 
     @Test
     void cst41NaoEntraNoTotalDoIcms() {
-        // O item 2 passa a CST 41: seu vICMS (95,00) sai da soma, que vira 216,00.
         String xml = trocar(industria, "<CST>00</CST>", "<CST>41</CST>");
 
         assertThat(new Regra532TotalIcms().validar(nfe(xml))).extracting(Ocorrencia::valorEsperado).containsExactly("216.00");
@@ -109,13 +104,10 @@ class RegrasTotaisTest {
 
     @Test
     void campoOpcionalAusenteNoItemValeZero() {
-        // O item 3 não tem vFrete; tirar o do item 2 também faz a soma cair para 50,00.
         String xml = trocar(industria, "<vFrete>25.00</vFrete>", "");
 
         assertThat(new Regra535TotalFrete().validar(nfe(xml))).extracting(Ocorrencia::valorEsperado).containsExactly("50.00");
     }
-
-    // --- 528: ICMS do item -------------------------------------------------------------------
 
     @Test
     void icmsDoItemDiferenteDeBaseVezesAliquotaDispara528() {
@@ -144,8 +136,6 @@ class RegrasTotaisTest {
         assertThat(new Regra528IcmsDoItem().validar(nfe(xml))).isEmpty();
     }
 
-    // --- 610: total da NF ---------------------------------------------------------------------
-
     @ParameterizedTest
     @ValueSource(strings = {"1911.40", "1911.90", "1910.90"})
     void diferencaDeAteCinquentaCentavosNoVnfPassa(String vNF) {
@@ -168,7 +158,6 @@ class RegrasTotaisTest {
 
     @Test
     void vnfSemSubtrairODescontoDispara610() {
-        // O desconto (R$ 150,00) é muito maior que a tolerância, então a mutação não se perde nela.
         String xml = trocar(industria, "<vNF>1911.40</vNF>", "<vNF>2061.40</vNF>");
 
         assertThat(new Regra610TotalNF().validar(nfe(xml))).hasSize(1);
@@ -177,7 +166,6 @@ class RegrasTotaisTest {
     @ParameterizedTest
     @ValueSource(strings = {"1901.40", "1911.40"})
     void icmsDesoneradoPodeOuNaoTerSidoSubtraido(String vNF) {
-        // Exceção 3: não rejeitar se o vICMSDeson não tiver sido subtraído.
         String xml = trocar(trocar(industria, "<vICMSDeson>0.00</vICMSDeson>", "<vICMSDeson>10.00</vICMSDeson>"),
                 "<vNF>1911.40</vNF>", "<vNF>" + vNF + "</vNF>");
 
@@ -194,7 +182,6 @@ class RegrasTotaisTest {
 
     @Test
     void faturamentoDiretoDeVeiculoNaoSomaOIcmsSt() {
-        // Exceção 1: sem vST, o total esperado é 1911,40 − 106,40 = 1805,00.
         String veiculo = trocar(industria, "<vOutro>20.00</vOutro>\n        <indTot>1</indTot>",
                 "<vOutro>20.00</vOutro>\n        <indTot>1</indTot>\n        <veicProd><tpOp>2</tpOp></veicProd>");
 

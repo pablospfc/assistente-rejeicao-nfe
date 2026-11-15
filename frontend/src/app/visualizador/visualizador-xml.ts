@@ -3,11 +3,6 @@ import { Ocorrencia } from '../diagnostico/modelos';
 import { LinhaXml, linhasDoXml } from './linhas-xml';
 import { linhaDoErro, resolverXPath } from './xpath';
 
-/**
- * Mostra o XML enviado e destaca o campo da ocorrência selecionada. O XML é lido só
- * aqui, no navegador, a partir da memória (D026). Se ele não for bem formado (243), mostra
- * o texto original e destaca a linha do erro.
- */
 @Component({
   selector: 'app-visualizador-xml',
   templateUrl: './visualizador-xml.html',
@@ -29,7 +24,6 @@ export class VisualizadorXml {
     return documento ? linhasDoXml(documento) : [];
   });
 
-  /** Linhas do texto original, usadas quando o XML não é bem formado. */
   protected readonly linhasTexto = computed(() => this.xml().split(/\r?\n/));
 
   protected readonly alvo = computed(() => {
@@ -40,7 +34,6 @@ export class VisualizadorXml {
   protected readonly linhaDoErro = computed(() => linhaDoErro(this.ocorrencia()?.valorEncontrado ?? null));
 
   constructor() {
-    // Rola só a área do XML até o campo destacado, sem mover a página.
     afterRenderEffect(() => {
       this.alvo();
       this.linhaDoErro();

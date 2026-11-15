@@ -8,7 +8,6 @@ import br.com.assistentenfe.regras.RegraValidacao;
 
 import java.util.List;
 
-/** 207: CNPJ do emitente (numérico ou alfanumérico) com dígito inválido. Emitente com CPF é ignorado (D009). */
 public final class Regra207CnpjEmitente implements RegraValidacao {
 
     private static final String CAMPO = "/NFe/infNFe/emit/CNPJ";

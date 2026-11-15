@@ -10,14 +10,6 @@ import org.w3c.dom.Node;
 import java.util.List;
 import java.util.Set;
 
-/**
- * 321: NF-e de devolução ({@code finNFe = 4}, modelo 55) deve referenciar o documento
- * fiscal devolvido (MOC 7.0, Anexo I, regra de B25). Interpretações do autor (D017):
- * <ul>
- *   <li>a exceção vale se <em>qualquer</em> item tiver CFOP 1.201, 1.202, 1.410, 1.411, 5.921 ou 6.921;</li>
- *   <li>contam refNFe, refNFeSig, refNF, refNFP e refECF; refCTe não conta.</li>
- * </ul>
- */
 public final class Regra321DevolucaoSemReferencia implements RegraValidacao {
 
     private static final Set<String> CFOP_EXCECAO = Set.of("1201", "1202", "1410", "1411", "5921", "6921");
@@ -44,7 +36,6 @@ public final class Regra321DevolucaoSemReferencia implements RegraValidacao {
                 .anyMatch(item -> item.texto("prod/CFOP").map(CFOP_EXCECAO::contains).orElse(false));
     }
 
-    /** Algum NFref com um tipo de documento aceito (cada NFref tem exatamente um filho). */
     private static boolean temReferenciaAceita(NFe nfe) {
         for (Element nfRef : nfe.filhos("/NFe/infNFe/ide", "NFref")) {
             for (Node n = nfRef.getFirstChild(); n != null; n = n.getNextSibling()) {

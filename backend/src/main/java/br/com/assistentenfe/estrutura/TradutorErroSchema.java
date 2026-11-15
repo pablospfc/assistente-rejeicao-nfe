@@ -8,20 +8,12 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Rejeição 225: converte a mensagem genérica do validador XSD (ex.:
- * {@code cvc-pattern-valid: Value '99' is not facet-valid ...}) em dados
- * estruturados — valor encontrado, valor esperado e um motivo, que o
- * catálogo transforma em texto para o usuário.
- */
 public final class TradutorErroSchema {
 
     public static final String CODIGO = "225";
 
-    /** Argumentos aparecem entre aspas simples na mensagem do validador. */
     private static final Pattern ARGUMENTO = Pattern.compile("'([^']*)'");
 
-    /** Remove o namespace de nomes como {"http://www.portalfiscal.inf.br/nfe":cUF}. */
     private static final Pattern NAMESPACE = Pattern.compile("\"[^\"]*\":|[{}]");
 
     public Ocorrencia traduzir(String mensagem, String xpath) {
@@ -46,11 +38,6 @@ public final class TradutorErroSchema {
         };
     }
 
-    /**
-     * Mensagens de acompanhamento que o validador emite logo depois do erro
-     * específico (ex.: cvc-type.3.1.3 após cvc-pattern-valid) e que não trazem
-     * informação nova.
-     */
     public boolean ehRepeticao(String mensagem) {
         return mensagem.startsWith("cvc-type.3.1.3")
                 || mensagem.startsWith("cvc-attribute.3")
@@ -58,7 +45,6 @@ public final class TradutorErroSchema {
                 || mensagem.startsWith("cvc-complex-type.2.2");
     }
 
-    /** Nome do atributo citado em cvc-attribute.3, para corrigir o XPath do erro anterior. */
     public String atributoCitado(String mensagem) {
         return mensagem.startsWith("cvc-attribute.3") ? arg(argumentos(mensagem), 1) : null;
     }

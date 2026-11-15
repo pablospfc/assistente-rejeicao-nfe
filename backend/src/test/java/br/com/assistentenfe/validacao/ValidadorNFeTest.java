@@ -25,7 +25,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class ValidadorNFeTest {
 
-    /** Todas as regras de negócio, com o relógio fixo em 12/11/2026 para o 703 não depender da data do teste. */
     private static final ValidadorNFe validador = new ValidadorNFe(ValidadorSchema.nfe400(),
             RegrasDisponiveis.todas(Clock.fixed(Instant.parse("2026-11-12T12:00:00Z"), ZoneOffset.UTC), Duration.ZERO));
 
@@ -51,7 +50,6 @@ class ValidadorNFeTest {
         assertThat(resultado.ocorrencias()).extracting(Ocorrencia::codigo).containsExactly("243");
     }
 
-    /** Regra fictícia: acusa toda NF-e que tenha natOp, e é ignorada se o campo faltar. */
     private static final RegraValidacao REGRA_FICTICIA = new RegraValidacao() {
         @Override
         public String codigoRejeicao() {
@@ -71,7 +69,6 @@ class ValidadorNFeTest {
 
     @Test
     void regrasRodamDepoisDeFalhaNoSchemaESaoSinalizadas() {
-        // Reassinado depois da mutação, para isolar o 225 (sem 297).
         String xml = assinado(trocar(XmlDeTeste.valido(XmlDeTeste.BASE), "<cUF>21</cUF>", "<cUF>99</cUF>"));
 
         ResultadoValidacao resultado = comRegra.validar(bytes(xml));
@@ -106,7 +103,6 @@ class ValidadorNFeTest {
 
         ResultadoValidacao resultado = validador.validar(bytes(xml));
 
-        // Com o prefixo, os filhos ficam sem namespace e o XSD também rejeita (225).
         assertThat(resultado.ocorrencias()).extracting(Ocorrencia::codigo).contains("404", "225");
     }
 

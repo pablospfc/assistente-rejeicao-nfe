@@ -8,7 +8,6 @@ class RelatorioAvaliacaoTest {
 
     @Test
     void celulaEscapaTagsEBarraVertical() {
-        // Sem o escape, o GitHub trataria "</natOp>" como tag HTML e o esconderia do Quadro 1.
         assertThat(RelatorioAvaliacao.celula("Remove o fechamento de uma tag (</natOp>)"))
                 .isEqualTo("Remove o fechamento de uma tag (&lt;/natOp&gt;)");
         assertThat(RelatorioAvaliacao.celula("A | B & C")).isEqualTo("A \\| B &amp; C");
