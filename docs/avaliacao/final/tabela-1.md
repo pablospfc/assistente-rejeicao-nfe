@@ -1,7 +1,7 @@
 # Avaliação do Assistente de Rejeições da NF-e
 
-- **Gerado em:** 2026-11-15T16:56:36.309077-03:00
-- **Commit:** `c08af901c04134ecd824549b268f412a14942683`
+- **Gerado em:** 2026-11-15T17:59:37.7918783-03:00
+- **Commit:** `659070ffde9631582a77b6a8c0164a635bf3863c`
 - **JDK:** Eclipse Adoptium 21.0.7
 - **Instante fixo da validação:** 2026-11-12T12:00:00Z; tolerância do 703: PT5M
 - **Fontes:**

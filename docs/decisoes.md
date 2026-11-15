@@ -2,6 +2,19 @@
 
 Cada decisão segue o formato: contexto, decisão, alternativas descartadas.
 
+## Índice
+
+| Fase | Decisões |
+|---|---|
+| 1 — Estrutura | D001 versão dos schemas · D002 NF-e como DOM · D003 segurança e não persistência · D004 tradução do 225 · D005 namespace (404 × 225) · D006 assinatura estrutural nos XMLs de base · D007 regras seguras contra campos ausentes |
+| 2 — Chave e identificação | D008 502 e 253 no lugar de 236 e 614–618 · D009 emitente pessoa física · D010 chave composta e DV (ASCII − 48) · D011 IE por UF (Strategy) · D012 relógio e tolerância do 703 · D013 conferência no MOC 7.0 · D014 212 → 703 |
+| 3 — Totais e operação | D015 premissa da Reforma no 610 · D016 598 no lugar do 373 e fonte do 441 · D017 interpretações do 321 · D018 tolerâncias e arredondamento · D019 Tabela CFOP (327/328) |
+| 4 — Assinatura | D020 alcance do 297 · D021 SHA-1 só no contexto de validação · D022 certificado gerado na execução |
+| 5 — Avaliação | D023 metodologia por mutações · D024 característica do 225 |
+| 6 — Frontend | D025 Angular 22 e Material · D026 visualizador sem persistência e sem terceiros · D027 exemplos assinados |
+
+A seção [Limitações e extensões futuras](#limitações-e-extensões-futuras), no fim, reúne o que ficou fora do escopo.
+
 ## D001 — Versão dos schemas XSD
 
 **Contexto.** A validação estrutural (rejeição 225) depende dos schemas oficiais publicados no Portal da NF-e. Os schemas mudam a cada Pacote de Liberação (PL), e o resultado da validação só é reproduzível se a versão usada estiver registrada.
@@ -438,6 +451,16 @@ Na prática, o projeto aceita qualquer certificado, inclusive autoassinado, e co
 - *Mutações por troca de texto:* dependeriam dos valores de cada base e não se aplicariam a todas.
 - *Cobrar no teste que todas as mutações acertem:* induziria a ajustar regras ou mutações até "passar". O teste cobra só o controle negativo e a cobertura do escopo.
 
+**Atualização (Fase 7): só a renderização do relatório mudou.**
+- A execução final anterior (`docs/avaliacao/final/`, commit **c08af90**) mostrava no Quadro 1 a descrição "(</natOp>)" sem escape, e o GitHub trata esse trecho como tag HTML e o esconde.
+- O gerador passou a escapar `<`, `>`, `&` e `|` nas células (`RelatorioAvaliacao.celula`, com teste).
+- A execução final foi gerada de novo no commit **659070f**, com a árvore limpa.
+- Nada mudou nos resultados:
+  - o `resultados.csv` é idêntico byte a byte ao da execução inicial (792e81a) e ao da final anterior;
+  - a Tabela 1 só mudou nas linhas de data e commit;
+  - no Quadro 1, só as duas linhas do 243 mudaram, agora escapadas (`&lt;/natOp&gt;` e `&amp;`).
+- Nenhuma regra, mutação ou expectativa foi alterada, e a seção "Correções feitas durante a avaliação" continua "Nenhuma".
+
 ## D024 — Característica do 225: elemento obrigatório ausente no meio de uma sequência
 
 **Contexto.** Na execução inicial da avaliação (`docs/avaliacao/inicial/`, commit 792e81a), a mutação `M225-faltando` remove o `verProc` do grupo `ide`. Em quatro bases o `verProc` é o último elemento do grupo. O validador XSD acusa então "grupo incompleto" (`cvc-complex-type.2.4.b`), e a ocorrência aponta `/NFe/infNFe/ide`, como esperado. Na base de devolução, o `verProc` é seguido pelo `NFref`. Ali o validador acusa o `NFref` como elemento inesperado (`cvc-complex-type.2.4.a`, motivo `elementoInesperado`), e a ocorrência aponta `/NFe/infNFe/ide/NFref`. O 225 foi detectado e a explicação está completa ("O elemento NFref apareceu numa posição em que era esperado: verProc…"), mas o critério "campo correto" falhou nesse caso (111 de 112).
@@ -520,3 +543,26 @@ Na prática, o projeto aceita qualquer certificado, inclusive autoassinado, e co
 **Alternativas descartadas.**
 - *Assinar os exemplos à mão:* não seria reproduzível.
 - *Gerar os exemplos com uma chave fixa versionada:* contrariaria a regra de não ter segredos no repositório.
+
+## Limitações e extensões futuras
+
+Esta seção consolida o que as decisões acima deixaram fora do escopo, para a seção de Considerações Finais do artigo.
+
+**Limitações do escopo offline**
+- Não há consulta à SEFAZ: duplicidade, situação cadastral, IE não cadastrada e demais regras que dependem da base da SEFAZ ficam fora (CLAUDE.md).
+- O certificado é aceito como está: a validade, a cadeia ICP-Brasil, a LCR, a revogação e a raiz não são verificadas (290 a 296). O 297 confere só a integridade da assinatura com a chave do próprio certificado (D020).
+- O 610 segue a fórmula do MOC 7.0. A premissa de que a Reforma Tributária não alterou o `vNF` não foi confirmada nas NTs (D015).
+- Na falta de um elemento obrigatório no meio de uma sequência, o 225 aponta o elemento seguinte (D024).
+- As fontes conferidas foram o MOC 7.0 (2020), a NT 2020.006 v1.30 e o IT 2023.002 v2.10. Os schemas são de 2026 (PL 010g), e Notas Técnicas posteriores podem ter alterado textos ou regras (D013).
+- A IE é conferida só para MA, SP e PR (sem o produtor rural de SP). Nas demais UFs, as regras 209 e 210 são ignoradas (D011).
+- O backend usa Spring Boot 3.5, como pede o CLAUDE.md (linha 3.x). É preciso conferir se a linha 3.5 ainda tem suporte gratuito no período de uso do projeto.
+
+**Extensões futuras**
+- **587** (usar somente o namespace padrão da NF-e): um verificador na camada de estrutura (D005).
+- **401** (CPF do emitente inválido): reaproveita o cálculo do 237 (D009).
+- **229** (IE do emitente não informada): hoje a IE só com zeros é ignorada pelo 209 (D013).
+- **290 e 291**: as checagens de certificado possíveis offline, como versão 3, *KeyUsage* e datas de validade (D020).
+- **Destacar a posição do elemento esperado** no motivo `elementoInesperado`, além do elemento seguinte (D024).
+- **Eliminar a premissa do 610** conferindo as NTs da Reforma (NT 2025.002, NT 2026.006 e NT 2026.008) (D015).
+- **Mais UFs para a IE**: basta uma nova classe de estratégia em `EstrategiasIE` (D011).
+- **Tolerância do 703 e textos do catálogo**: o texto do 703 cita os 5 minutos, e mudar a tolerância na configuração exige ajustar o catálogo (D012).

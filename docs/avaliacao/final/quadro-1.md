@@ -1,7 +1,7 @@
 # Avaliação do Assistente de Rejeições da NF-e
 
-- **Gerado em:** 2026-11-15T16:56:36.309077-03:00
-- **Commit:** `c08af901c04134ecd824549b268f412a14942683`
+- **Gerado em:** 2026-11-15T17:59:37.7918783-03:00
+- **Commit:** `659070ffde9631582a77b6a8c0164a635bf3863c`
 - **JDK:** Eclipse Adoptium 21.0.7
 - **Instante fixo da validação:** 2026-11-12T12:00:00Z; tolerância do 703: PT5M
 - **Fontes:**
@@ -14,8 +14,8 @@
 
 | Grupo | Código | Rejeição | Mutação | Assinatura | Ajuste de isolamento | Casos |
 |---|---|---|---|---|---|---:|
-| Estrutura e assinatura | 243 | Rejeição: XML Mal Formado | Remove o fechamento de uma tag (</natOp>) | muta após assinar | — | 5 |
-| Estrutura e assinatura | 243 | Rejeição: XML Mal Formado | Insere "&" sem escape na razão social do emitente | muta após assinar | — | 5 |
+| Estrutura e assinatura | 243 | Rejeição: XML Mal Formado | Remove o fechamento de uma tag (&lt;/natOp&gt;) | muta após assinar | — | 5 |
+| Estrutura e assinatura | 243 | Rejeição: XML Mal Formado | Insere "&amp;" sem escape na razão social do emitente | muta após assinar | — | 5 |
 | Estrutura e assinatura | 225 | Rejeição: Falha no Schema XML do lote de NFe | Informa tpImp = 9, fora da lista de valores do schema | muta e reassina | — | 5 |
 | Estrutura e assinatura | 225 | Rejeição: Falha no Schema XML do lote de NFe | Remove o campo obrigatório verProc, último do grupo ide | muta e reassina | — | 5 |
 | Estrutura e assinatura | 297 | Rejeição: Assinatura difere do calculado | Altera a natureza da operação depois de assinar | muta após assinar | — | 5 |
