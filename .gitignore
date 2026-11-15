@@ -1,0 +1,24 @@
+# Build
+target/
+node_modules/
+dist/
+
+# IDE e sistema operacional
+.idea/
+*.iml
+.vscode/
+out/
+*.log
+.DS_Store
+Thumbs.db
+CLAUDE.md
+
+# Segredos e certificados (nunca versionar)
+certificados/
+*.pfx
+*.p12
+*.jks
+*.pem
+*.key
+*.crt
+.env

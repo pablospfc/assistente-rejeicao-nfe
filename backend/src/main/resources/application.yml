@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: assistente-rejeicao-nfe
+  servlet:
+    multipart:
+      max-file-size: 1MB
+      max-request-size: 1MB
+      # Arquivos abaixo deste limite ficam só em memória. Como ele é maior que o
+      # tamanho máximo aceito, o XML enviado nunca é gravado em disco.
+      file-size-threshold: 2MB
+
+validacao:
+  # 703: diferença máxima aceita entre dhEmi e o instante da validação.
+  # O MOC 7.0 (Anexo I) aceita até 5 minutos pelo sincronismo de relógio (D012).
+  tolerancia-dh-emi: PT5M

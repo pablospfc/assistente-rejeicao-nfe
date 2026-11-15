@@ -1,0 +1,362 @@
+# Catálogo de explicações das rejeições.
+#
+# Para cada código: título oficial, campo afetado, o que está errado e como corrigir.
+# Marcadores aceitos nos textos: {campo}, {encontrado}, {esperado}.
+# Para o 225, "motivos" refina o problema e a correção conforme o tipo de erro do XSD.
+#
+# Títulos conferidos no MOC 7.0, Anexo I (Leiaute e Regras de Validação), em 12/11/2026 (D013).
+
+"243":
+  titulo: "Rejeição: XML Mal Formado"  # MOC 7.0, Anexo I
+  campo: "Arquivo XML"
+  problema: >-
+    O arquivo não é um XML bem formado (problema em {encontrado}). Normalmente é
+    uma tag aberta sem fechamento, uma tag fechada fora de ordem, um caractere
+    especial sem escape (como "&") ou uma declaração DOCTYPE, que não é permitida.
+  correcao: >-
+    Abra o arquivo num editor de XML, vá até a posição indicada e corrija a sintaxe.
+    Se o XML foi editado à mão, gere-o novamente pelo emissor.
+
+"404":
+  titulo: "Rejeição: Uso de prefixo de namespace não permitido"  # MOC 7.0, Anexo I
+  campo: "{campo}"
+  problema: >-
+    O elemento foi escrito com prefixo de namespace ("{encontrado}"). A NF-e só
+    aceita o namespace padrão, declarado sem prefixo.
+  correcao: >-
+    Remova o prefixo e declare o namespace como padrão: escreva <{esperado}> em vez
+    de <{encontrado}>, com xmlns="http://www.portalfiscal.inf.br/nfe" na raiz
+    (ou xmlns="http://www.w3.org/2000/09/xmldsig#" na Signature).
+
+"225":
+  titulo: "Rejeição: Falha no Schema XML do lote de NFe"  # MOC 7.0, Anexo I
+  campo: "{campo}"
+  problema: "O campo {campo} não está de acordo com o schema oficial da NF-e."
+  correcao: "Corrija o campo {campo} conforme o leiaute da NF-e 4.00."
+  motivos:
+    formato:
+      problema: "O valor \"{encontrado}\" do campo {campo} não segue o formato exigido."
+      correcao: "Informe o campo {campo} no formato definido pelo leiaute (expressão regular {esperado})."
+    lista:
+      problema: "O valor \"{encontrado}\" não é um dos aceitos para o campo {campo}."
+      correcao: "Use um destes valores em {campo}: {esperado}."
+    tamanhoMaximo:
+      problema: "O campo {campo} tem mais caracteres do que o permitido."
+      correcao: "Reduza {campo} para no máximo {esperado} caracteres."
+    tamanhoMinimo:
+      problema: "O campo {campo} tem menos caracteres do que o exigido."
+      correcao: "Informe {campo} com pelo menos {esperado} caracteres."
+    tamanhoExato:
+      problema: "O campo {campo} não tem o número de caracteres exigido."
+      correcao: "Informe {campo} com exatamente {esperado} caracteres."
+    tipo:
+      problema: "O valor \"{encontrado}\" do campo {campo} não é do tipo esperado ({esperado})."
+      correcao: "Informe em {campo} um valor do tipo {esperado}."
+    elementoInesperado:
+      problema: >-
+        O elemento {encontrado} apareceu numa posição em que era esperado: {esperado}.
+        Ou falta um campo obrigatório antes dele, ou ele está fora de ordem.
+      correcao: "Inclua o campo que falta ({esperado}) ou mova {encontrado} para a posição correta do leiaute."
+    elementoFaltando:
+      problema: "O grupo {campo} está incompleto: falta o campo {esperado}."
+      correcao: "Inclua o campo {esperado} no final do grupo {campo}."
+    elementoNaoPermitido:
+      problema: "O elemento {encontrado} não é permitido nesta posição; o grupo já está completo."
+      correcao: "Remova {encontrado} ou mova-o para o grupo correto."
+    textoNaoPermitido:
+      problema: "O grupo {campo} contém texto solto, mas só pode conter outros elementos."
+      correcao: "Remova o texto de dentro de {campo}, deixando apenas os elementos filhos."
+    atributoNaoPermitido:
+      problema: "O atributo {encontrado} não é permitido neste elemento."
+      correcao: "Remova o atributo {encontrado}."
+    atributoFaltando:
+      problema: "Falta o atributo obrigatório {esperado}."
+      correcao: "Inclua o atributo {esperado} no elemento indicado."
+    raizDesconhecida:
+      problema: >-
+        O elemento raiz {encontrado} não foi reconhecido como uma NF-e. Normalmente o
+        namespace está ausente ou errado.
+      correcao: >-
+        Use <NFe xmlns="http://www.portalfiscal.inf.br/nfe"> como elemento raiz.
+
+"297":
+  titulo: "Rejeição: Assinatura difere do calculado"  # MOC 7.0, Anexo I (F02)
+  campo: "{campo}"
+  problema: "A assinatura digital não confere com o conteúdo da NF-e."
+  correcao: "Assine a NF-e novamente, depois de todas as alterações, com o mesmo certificado incluído em KeyInfo."
+  motivos:
+    conteudoAlterado:
+      problema: >-
+        O conteúdo da NF-e (infNFe) foi alterado depois da assinatura: o resumo calculado
+        não é igual ao DigestValue assinado.
+      correcao: >-
+        Não edite o XML depois de assinado. Faça a correção no emissor e assine de novo;
+        qualquer mudança no infNFe, até de um espaço, invalida a assinatura.
+    valorDaAssinatura:
+      problema: >-
+        O valor da assinatura (SignatureValue) não confere com o SignedInfo e com a chave
+        pública do certificado incluído em KeyInfo.
+      correcao: >-
+        Assine novamente com a chave privada que corresponde ao certificado em KeyInfo e
+        não altere o SignatureValue nem o SignedInfo (inclusive o DigestValue) depois disso.
+
+# ---------------------------------------------------------------------------
+# Chave de acesso (D008)
+# ---------------------------------------------------------------------------
+
+"502":
+  titulo: "Rejeição: Erro na Chave de Acesso - Campo Id não corresponde à concatenação dos campos correspondentes"  # MOC 7.0, Anexo I
+  campo: "{campo}"
+  problema: >-
+    O atributo Id ({encontrado}) não corresponde à chave formada pelos campos da NF-e.
+    Algum campo que compõe a chave (UF, ano e mês de emissão, CNPJ do emitente, modelo,
+    série, número, tipo de emissão, código numérico ou cDV) foi alterado sem atualizar o Id.
+  correcao: >-
+    Gere a chave de novo a partir dos campos e informe Id="{esperado}". Depois, refaça a
+    assinatura, que referencia o Id.
+
+"253":
+  titulo: "Rejeição: Digito Verificador da chave de acesso composta inválida"  # MOC 7.0, Anexo I
+  campo: "{campo}"
+  problema: >-
+    O dígito verificador informado em cDV ({encontrado}) não confere com o calculado a
+    partir dos campos da chave ({esperado}).
+  correcao: >-
+    Recalcule o dígito pelo módulo 11 sobre as 43 posições da chave e informe
+    cDV = {esperado}. Atualize também o último dígito do Id e refaça a assinatura.
+
+# ---------------------------------------------------------------------------
+# Identificação
+# ---------------------------------------------------------------------------
+
+"703":
+  titulo: "Rejeição: Data-Hora de Emissão posterior ao horário de recebimento"  # MOC 7.0, Anexo I
+  campo: "{campo}"
+  problema: >-
+    A data-hora de emissão ({encontrado}) é posterior ao momento da validação ({esperado}),
+    além da tolerância de 5 minutos que a SEFAZ aceita pela diferença de relógio.
+  correcao: >-
+    Confira o relógio e o fuso horário do sistema emissor e informe em dhEmi a data e a
+    hora reais da emissão, com o fuso correto (ex.: -03:00).
+
+"207":
+  titulo: "Rejeição: CNPJ do emitente inválido"  # MOC 7.0, Anexo I
+  campo: "{campo} do emitente"
+  problema: >-
+    O CNPJ do emitente ({encontrado}) é inválido: os dígitos verificadores não conferem,
+    o número está zerado ou o formato está errado.
+  correcao: >-
+    Informe o CNPJ do emitente com 14 caracteres, sem pontuação, como consta no cadastro.
+    No CNPJ alfanumérico, as 12 primeiras posições podem ter letras maiúsculas e as duas
+    últimas são sempre dígitos.
+
+"208":
+  titulo: "Rejeição: CNPJ do destinatário inválido"  # MOC 7.0, Anexo I
+  campo: "{campo} do destinatário"
+  problema: >-
+    O CNPJ do destinatário ({encontrado}) é inválido: os dígitos verificadores não
+    conferem, o número está zerado ou o formato está errado.
+  correcao: >-
+    Confira o CNPJ do destinatário no cadastro do cliente e informe os 14 caracteres,
+    sem pontuação. No CNPJ alfanumérico, as 12 primeiras posições podem ter letras
+    maiúsculas e as duas últimas são sempre dígitos.
+
+"237":
+  titulo: "Rejeição: CPF do destinatário inválido"  # MOC 7.0, Anexo I
+  campo: "{campo} do destinatário"
+  problema: >-
+    O CPF do destinatário ({encontrado}) é inválido: os dígitos verificadores não
+    conferem ou todos os dígitos são iguais.
+  correcao: >-
+    Confira o CPF no documento do destinatário e informe os 11 dígitos, sem pontuação.
+
+"209":
+  titulo: "Rejeição: IE do emitente inválida"  # MOC 7.0, Anexo I
+  campo: "{campo} do emitente"
+  problema: >-
+    A Inscrição Estadual do emitente ({encontrado}) não é válida para a UF {esperado}:
+    o formato ou o dígito verificador não confere com a regra dessa UF.
+  correcao: >-
+    Informe a IE como consta no cadastro estadual, só com dígitos e sem pontuação, ou
+    ISENTO se o emitente não tiver inscrição.
+
+"210":
+  titulo: "Rejeição: IE do destinatário inválida"  # MOC 7.0, Anexo I
+  campo: "{campo} do destinatário"
+  problema: >-
+    A Inscrição Estadual do destinatário ({encontrado}) não é válida para a UF
+    {esperado}: o formato ou o dígito verificador não confere com a regra dessa UF.
+  correcao: >-
+    Confira a IE no cadastro do cliente e informe só os dígitos. Se o destinatário não
+    for contribuinte do ICMS, informe indIEDest = 9 e não preencha a IE.
+
+# ---------------------------------------------------------------------------
+# Totais e cálculos (MOC 7.0, Anexo I, grupos N e W)
+# ---------------------------------------------------------------------------
+
+"564":
+  titulo: "Rejeição: Total do Produto / Serviço difere do somatório dos itens"  # MOC 7.0, Anexo I
+  campo: "{campo}"
+  problema: >-
+    O valor dos produtos (vProd) informado no total da NF-e ({encontrado}) não é igual à soma do vProd dos itens sujeitos ao ICMS que compõem o total (indTot = 1)
+    ({esperado}).
+  correcao: >-
+    Recalcule o total a partir dos itens e informe {campo} = {esperado}, ou corrija o item
+    cujo valor está errado. Totais e itens devem ser gerados pelo mesmo cálculo no emissor.
+
+"531":
+  titulo: "Rejeição: Total da BC ICMS difere do somatório dos itens"  # MOC 7.0, Anexo I
+  campo: "{campo}"
+  problema: >-
+    O total da base de cálculo do ICMS (vBC) informado no total da NF-e ({encontrado}) não é igual à soma das bases de cálculo do ICMS dos itens
+    ({esperado}).
+  correcao: >-
+    Recalcule o total a partir dos itens e informe {campo} = {esperado}, ou corrija o item
+    cujo valor está errado. Totais e itens devem ser gerados pelo mesmo cálculo no emissor.
+
+"532":
+  titulo: "Rejeição: Total do ICMS difere do somatório dos itens"  # MOC 7.0, Anexo I
+  campo: "{campo}"
+  problema: >-
+    O total do ICMS (vICMS) informado no total da NF-e ({encontrado}) não é igual à soma do ICMS dos itens (sem os CST 40, 41 e 50)
+    ({esperado}).
+  correcao: >-
+    Recalcule o total a partir dos itens e informe {campo} = {esperado}, ou corrija o item
+    cujo valor está errado. Totais e itens devem ser gerados pelo mesmo cálculo no emissor.
+
+"533":
+  titulo: "Rejeição: Total da BC ICMS-ST difere do somatório dos itens"  # MOC 7.0, Anexo I
+  campo: "{campo}"
+  problema: >-
+    O total da base de cálculo do ICMS-ST (vBCST) informado no total da NF-e ({encontrado}) não é igual à soma das bases de cálculo do ICMS-ST dos itens
+    ({esperado}).
+  correcao: >-
+    Recalcule o total a partir dos itens e informe {campo} = {esperado}, ou corrija o item
+    cujo valor está errado. Totais e itens devem ser gerados pelo mesmo cálculo no emissor.
+
+"534":
+  titulo: "Rejeição: Total do ICMS-ST difere do somatório dos itens"  # MOC 7.0, Anexo I
+  campo: "{campo}"
+  problema: >-
+    O total do ICMS-ST (vST) informado no total da NF-e ({encontrado}) não é igual à soma do ICMS-ST dos itens (vICMSST)
+    ({esperado}).
+  correcao: >-
+    Recalcule o total a partir dos itens e informe {campo} = {esperado}, ou corrija o item
+    cujo valor está errado. Totais e itens devem ser gerados pelo mesmo cálculo no emissor.
+
+"535":
+  titulo: "Rejeição: Total do Frete difere do somatório dos itens"  # MOC 7.0, Anexo I
+  campo: "{campo}"
+  problema: >-
+    O total do frete (vFrete) informado no total da NF-e ({encontrado}) não é igual à soma do frete rateado nos itens
+    ({esperado}).
+  correcao: >-
+    Recalcule o total a partir dos itens e informe {campo} = {esperado}, ou corrija o item
+    cujo valor está errado. Totais e itens devem ser gerados pelo mesmo cálculo no emissor.
+
+"536":
+  titulo: "Rejeição: Total do Seguro difere do somatório dos itens"  # MOC 7.0, Anexo I
+  campo: "{campo}"
+  problema: >-
+    O total do seguro (vSeg) informado no total da NF-e ({encontrado}) não é igual à soma do seguro rateado nos itens
+    ({esperado}).
+  correcao: >-
+    Recalcule o total a partir dos itens e informe {campo} = {esperado}, ou corrija o item
+    cujo valor está errado. Totais e itens devem ser gerados pelo mesmo cálculo no emissor.
+
+"537":
+  titulo: "Rejeição: Total do Desconto difere do somatório dos itens"  # MOC 7.0, Anexo I
+  campo: "{campo}"
+  problema: >-
+    O total do desconto (vDesc) informado no total da NF-e ({encontrado}) não é igual à soma dos descontos dos itens
+    ({esperado}).
+  correcao: >-
+    Recalcule o total a partir dos itens e informe {campo} = {esperado}, ou corrija o item
+    cujo valor está errado. Totais e itens devem ser gerados pelo mesmo cálculo no emissor.
+
+"538":
+  titulo: "Rejeição: Total do IPI difere do somatório dos itens"  # MOC 7.0, Anexo I
+  campo: "{campo}"
+  problema: >-
+    O total do IPI (vIPI) informado no total da NF-e ({encontrado}) não é igual à soma do IPI tributado dos itens (IPITrib)
+    ({esperado}).
+  correcao: >-
+    Recalcule o total a partir dos itens e informe {campo} = {esperado}, ou corrija o item
+    cujo valor está errado. Totais e itens devem ser gerados pelo mesmo cálculo no emissor.
+
+"528":
+  titulo: "Rejeição: Valor do ICMS difere do produto BC e Alíquota [nItem: 999]"  # MOC 7.0, Anexo I
+  campo: "{campo}"
+  problema: >-
+    O ICMS do item ({encontrado}) não é igual à base de cálculo multiplicada pela
+    alíquota ({esperado}), considerando a tolerância de R$ 0,01.
+  correcao: >-
+    Recalcule o ICMS do item como vBC × pICMS ÷ 100, arredondado para duas casas, e
+    informe {campo} = {esperado}. Depois, ajuste o total do ICMS.
+
+"610":
+  titulo: "Rejeição: Total da NF difere do somatório dos Valores compõe o valor Total da NF."  # MOC 7.0, Anexo I
+  campo: "{campo}"
+  problema: >-
+    O valor total da NF-e ({encontrado}) não corresponde à soma dos valores que o compõem
+    ({esperado}), mesmo considerando a tolerância de R$ 0,50.
+  correcao: >-
+    Recalcule vNF = vProd − vDesc − vICMSDeson + vST + vFCPST + vFrete + vSeg + vOutro
+    + vII + vIPI + vIPIDevol + vServ e informe {campo} = {esperado}. Se a diferença estiver
+    numa das parcelas, corrija a parcela.
+
+# ---------------------------------------------------------------------------
+# Regras da operação
+# ---------------------------------------------------------------------------
+
+"321":
+  titulo: "Rejeição: NF-e de devolução de mercadoria não possui documento fiscal referenciado"  # MOC 7.0, Anexo I
+  campo: "{campo}"
+  problema: >-
+    A NF-e tem finalidade de devolução (finNFe = 4), mas não referencia o documento
+    fiscal da mercadoria devolvida.
+  correcao: >-
+    Inclua no grupo NFref a chave da NF-e (refNFe) ou os dados da nota modelo 1, da nota
+    de produtor ou do cupom fiscal que originou a operação devolvida.
+
+"598":
+  titulo: "Rejeição: NF-e emitida em ambiente de homologação com Razão Social do destinatário diferente de NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL"  # MOC 7.0, Anexo I
+  campo: "{campo} do destinatário"
+  problema: >-
+    Em homologação (tpAmb = 2), a razão social do destinatário deve ser o texto padrão,
+    mas o XML traz "{encontrado}".
+  correcao: >-
+    Informe em dest/xNome exatamente "{esperado}". Em produção (tpAmb = 1), use a razão
+    social real do destinatário.
+
+"441":
+  titulo: "Rejeição: Descrição do pagamento obrigatória para meio de pagamento 99-outros"  # NT 2020.006 v1.30
+  campo: "{campo}"
+  problema: >-
+    O meio de pagamento é 99 (Outros), mas a descrição do meio de pagamento (xPag) não
+    foi informada.
+  correcao: >-
+    Informe em xPag, logo após tPag, a descrição do meio de pagamento usado. Se ele tiver
+    código próprio na tabela de meios de pagamento, use esse código em vez de 99.
+
+"327":
+  titulo: "Rejeição: CFOP inválido para Nota Fiscal com finalidade de devolução de mercadoria[nItem:nnn]"  # MOC 7.0, Anexo I
+  campo: "{campo}"
+  problema: >-
+    A NF-e tem finalidade de devolução (finNFe = 4), mas o item usa o CFOP {encontrado},
+    que não é de devolução de mercadoria na Tabela CFOP do Portal da NF-e (indDevol = 0).
+  correcao: >-
+    Use um CFOP de devolução compatível com a operação original (ex.: 5.202 ou 6.202 para
+    devolução de compra para comercialização). Na devolução de venda para não contribuinte
+    (indIEDest = 9), também são aceitos os CFOPs 1.949 e 2.949.
+
+"328":
+  titulo: "Rejeição: CFOP de devolução de mercadoria para NF-e que não tem finalidade de devolução de mercadoria [nItem:nnn]"  # MOC 7.0, Anexo I
+  campo: "{campo}"
+  problema: >-
+    O item usa o CFOP {encontrado}, que é de devolução de mercadoria (indDevol = 1 na
+    Tabela CFOP), mas a NF-e não tem finalidade de devolução nem é complementar.
+  correcao: >-
+    Se a operação é uma devolução, informe finNFe = 4 e referencie a nota original em
+    NFref. Caso contrário, troque o CFOP pelo da operação realizada (ex.: 5.102 para venda
+    de mercadoria adquirida de terceiros).

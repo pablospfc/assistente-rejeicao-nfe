@@ -1,0 +1,4 @@
+# Fim de linha fixo, independente do core.autocrlf de quem clona.
+# Os testes fazem mutações por trecho de texto com "\n" nos XMLs de base, e o mvnw precisa de LF.
+* text=auto eol=lf
+*.cmd text eol=crlf
