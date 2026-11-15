@@ -571,6 +571,7 @@ Na prática, o projeto aceita qualquer certificado, inclusive autoassinado, e co
 - Os exemplos foram conferidos pelo `ExemplosAssinadosTest` e mantêm os códigos esperados.
 - O jar empacotado sobe sem avisos da aplicação no JDK 25 e responde corretamente aos exemplos válidos e com erro (243, 297 e 225/207/610/598), ao arquivo ausente (400) e ao acima de 1 MB (413).
 - Os avisos de `sun.misc.Unsafe` vistos no build vêm do Maven 3.9.11 (biblioteca Guice), não da aplicação.
+- **Execução final regenerada.** Depois do commit da migração (**41eceee**), a execução final (`docs/avaliacao/final/`) foi gerada de novo no JDK 25, para o cabeçalho refletir a versão da tag `v1.0.0`. A execução anterior era a do commit **659070f**, no JDK 21. Só as linhas de data, commit e JDK mudaram na Tabela 1 e no Quadro 1, e o `resultados.csv` é idêntico. A execução inicial (`docs/avaliacao/inicial/`, commit 792e81a, JDK 21) foi mantida como estava.
 
 **Alternativas descartadas.**
 - *Manter o Boot 3.5 e o Java 21:* o suporte gratuito da linha 3.5 era incerto no período de uso do projeto.

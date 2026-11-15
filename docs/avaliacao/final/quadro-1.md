@@ -1,8 +1,8 @@
 # Avaliação do Assistente de Rejeições da NF-e
 
-- **Gerado em:** 2026-11-15T17:59:37.7918783-03:00
-- **Commit:** `659070ffde9631582a77b6a8c0164a635bf3863c`
-- **JDK:** Eclipse Adoptium 21.0.7
+- **Gerado em:** 2026-11-15T18:52:41.7294333-03:00
+- **Commit:** `41eceee158f817c3dfda5a6eae220a830dce45f3`
+- **JDK:** Microsoft 25.0.5.0.2
 - **Instante fixo da validação:** 2026-11-12T12:00:00Z; tolerância do 703: PT5M
 - **Fontes:**
   - Schemas: Pacote de Liberação 010g v1.03 (NT 2026.006 v1.00 e NT 2026.008 v1.00) — D001
