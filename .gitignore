@@ -22,3 +22,6 @@ certificados/
 *.key
 *.crt
 .env
+
+# Configuração local do Claude Code
+.claude/

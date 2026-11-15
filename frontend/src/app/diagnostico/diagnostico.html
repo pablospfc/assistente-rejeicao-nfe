@@ -1,0 +1,96 @@
+<div class="pagina">
+  <mat-card appearance="outlined" class="resumo" [class.valida]="validacao().diagnostico.valida">
+    <mat-card-header>
+      <mat-icon matCardAvatar>{{ validacao().diagnostico.valida ? 'check_circle' : 'report' }}</mat-icon>
+      <mat-card-title>
+        @if (validacao().diagnostico.valida) {
+          Nenhuma rejeição encontrada
+        } @else {
+          {{ total() }} {{ total() === 1 ? 'ocorrência encontrada' : 'ocorrências encontradas' }}
+        }
+      </mat-card-title>
+      <mat-card-subtitle>{{ validacao().nomeArquivo }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-actions align="end">
+      <button mat-stroked-button type="button" (click)="validarOutro()">
+        <mat-icon>upload_file</mat-icon>
+        Validar outro arquivo
+      </button>
+    </mat-card-actions>
+  </mat-card>
+
+  @if (validacao().diagnostico.regrasApesarDeFalhaNoSchema) {
+    <p class="aviso" role="note">
+      <mat-icon>warning</mat-icon>
+      As regras de negócio também foram avaliadas, mas o XML tem falhas de schema (225): corrija a estrutura primeiro.
+    </p>
+  }
+
+  @if (!validacao().diagnostico.valida) {
+    <div class="colunas">
+      <mat-accordion multi class="ocorrencias">
+        @for (grupo of grupos(); track grupo.chave) {
+          <mat-expansion-panel [expanded]="grupo.ocorrencias.length > 0" [disabled]="grupo.ocorrencias.length === 0">
+            <mat-expansion-panel-header>
+              <mat-panel-title><mat-icon>{{ grupo.icone }}</mat-icon>{{ grupo.nome }}</mat-panel-title>
+              <mat-panel-description>
+                {{ grupo.ocorrencias.length }} {{ grupo.ocorrencias.length === 1 ? 'ocorrência' : 'ocorrências' }}
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            @for (ocorrencia of grupo.ocorrencias; track $index) {
+              <mat-card
+                appearance="outlined"
+                class="ocorrencia"
+                [class.selecionada]="ocorrencia === selecionada()"
+                tabindex="0"
+                role="button"
+                [attr.aria-pressed]="ocorrencia === selecionada()"
+                (click)="selecionar(ocorrencia)"
+                (keydown.enter)="selecionar(ocorrencia)"
+              >
+                <mat-card-header>
+                  <mat-chip-set aria-label="Código de rejeição">
+                    <mat-chip highlighted>{{ ocorrencia.codigo }}</mat-chip>
+                  </mat-chip-set>
+                  <mat-card-title class="titulo">{{ ocorrencia.titulo }}</mat-card-title>
+                  @if (ocorrencia.xpath) {
+                    <mat-card-subtitle><code>{{ ocorrencia.xpath }}</code></mat-card-subtitle>
+                  }
+                </mat-card-header>
+                <mat-card-content>
+                  <dl>
+                    <dt>Campo</dt>
+                    <dd>{{ ocorrencia.campo }}</dd>
+                    <dt>O que está errado</dt>
+                    <dd>{{ ocorrencia.problema }}</dd>
+                    <dt>Como corrigir</dt>
+                    <dd>{{ ocorrencia.correcao }}</dd>
+                    @if (ocorrencia.valorEncontrado) {
+                      <dt>Encontrado</dt>
+                      <dd><code>{{ ocorrencia.valorEncontrado }}</code></dd>
+                    }
+                    @if (ocorrencia.valorEsperado) {
+                      <dt>Esperado</dt>
+                      <dd><code>{{ ocorrencia.valorEsperado }}</code></dd>
+                    }
+                  </dl>
+                </mat-card-content>
+              </mat-card>
+            }
+          </mat-expansion-panel>
+        }
+      </mat-accordion>
+
+      <mat-card appearance="outlined" class="xml">
+        <mat-card-header>
+          <mat-card-title>XML enviado</mat-card-title>
+          <mat-card-subtitle>Campo da ocorrência selecionada em destaque</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <app-visualizador-xml [xml]="validacao().xml" [ocorrencia]="selecionada()" />
+        </mat-card-content>
+      </mat-card>
+    </div>
+  }
+</div>

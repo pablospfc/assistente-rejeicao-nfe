@@ -1,0 +1,39 @@
+.area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 40px 24px;
+  border: 2px dashed var(--mat-sys-outline);
+  border-radius: var(--mat-sys-corner-large);
+  background: var(--mat-sys-surface-container-low);
+  text-align: center;
+  transition: background-color 120ms, border-color 120ms;
+}
+
+.sobre {
+  border-color: var(--mat-sys-primary);
+  background: var(--mat-sys-primary-container);
+}
+
+.desabilitada {
+  opacity: 0.6;
+}
+
+.icone {
+  width: 48px;
+  height: 48px;
+  font-size: 48px;
+  color: var(--mat-sys-primary);
+}
+
+.titulo {
+  margin: 0;
+  font: var(--mat-sys-title-medium);
+}
+
+.dica {
+  margin: 0 0 8px;
+  font: var(--mat-sys-body-small);
+  color: var(--mat-sys-on-surface-variant);
+}

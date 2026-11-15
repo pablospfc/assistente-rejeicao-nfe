@@ -1,0 +1,17 @@
+<mat-card appearance="outlined" class="cartao">
+  <mat-card-header>
+    <mat-card-title>Validar NF-e antes da transmissão</mat-card-title>
+    <mat-card-subtitle>
+      O XML é validado em memória, sem consulta à SEFAZ, e descartado após a resposta.
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <app-area-arquivo [desabilitada]="validando()" (arquivo)="aoReceber($event)" />
+    @if (validando()) {
+      <mat-progress-bar mode="indeterminate" aria-label="Validando o XML" />
+    }
+    @if (erro(); as mensagem) {
+      <p class="erro" role="alert"><mat-icon>error</mat-icon>{{ mensagem }}</p>
+    }
+  </mat-card-content>
+</mat-card>

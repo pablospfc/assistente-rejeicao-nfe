@@ -1,0 +1,24 @@
+<div class="area" #area role="region" aria-label="Conteúdo do XML enviado">
+  @if (documento()) {
+    @for (linha of linhas(); track $index) {
+      <div class="linha" [class.destacada]="destacada(linha)" [style.padding-left.ch]="linha.nivel * 2">
+        @switch (linha.tipo) {
+          @case ('comentario') {
+            <span class="comentario">&lt;!-- {{ linha.texto }} --&gt;</span>
+          }
+          @case ('fecha') {
+            <span class="tag">&lt;/{{ linha.nome }}&gt;</span>
+          }
+          @default {
+            <span class="tag">&lt;{{ linha.nome }}</span>@for (atributo of linha.atributos; track atributo.nome) {<span class="atributo" [class.atributo-destacado]="atributoDestacado(linha, atributo.nome)">{{ atributo.nome }}="<span class="valor">{{ atributo.valor }}</span>"</span>}<span class="tag">&gt;</span>@if (linha.tipo === 'folha') {<span class="texto">{{ linha.texto }}</span><span class="tag">&lt;/{{ linha.nome }}&gt;</span>}
+          }
+        }
+      </div>
+    }
+  } @else {
+    <p class="aviso">O XML não é bem formado. Abaixo está o texto original, com a linha do erro em destaque.</p>
+    @for (texto of linhasTexto(); track $index) {
+      <div class="linha" [class.destacada]="$index + 1 === linhaDoErro()"><span class="numero">{{ $index + 1 }}</span>{{ texto }}</div>
+    }
+  }
+</div>

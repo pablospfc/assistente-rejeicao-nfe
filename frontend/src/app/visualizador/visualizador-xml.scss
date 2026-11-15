@@ -1,0 +1,55 @@
+.area {
+  position: relative;
+  font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+  font-size: 12.5px;
+  line-height: 1.6;
+  overflow: auto;
+  max-height: 70vh;
+  white-space: pre;
+}
+
+.linha {
+  border-radius: 4px;
+  padding-right: 8px;
+}
+
+.destacada {
+  background: var(--mat-sys-tertiary-container);
+  color: var(--mat-sys-on-tertiary-container);
+  outline: 2px solid var(--mat-sys-tertiary);
+}
+
+.tag {
+  color: var(--mat-sys-primary);
+}
+
+.atributo {
+  margin-left: 1ch;
+  color: var(--mat-sys-secondary);
+}
+
+.atributo-destacado {
+  text-decoration: underline wavy var(--mat-sys-tertiary);
+}
+
+.valor,
+.texto {
+  color: var(--mat-sys-on-surface);
+}
+
+.comentario {
+  color: var(--mat-sys-outline);
+  font-style: italic;
+}
+
+.numero {
+  display: inline-block;
+  width: 4ch;
+  color: var(--mat-sys-outline);
+  user-select: none;
+}
+
+.aviso {
+  font: var(--mat-sys-body-medium);
+  white-space: normal;
+}

@@ -1,0 +1,17 @@
+<div
+  class="area"
+  [class.sobre]="sobre()"
+  [class.desabilitada]="desabilitada()"
+  (dragover)="aoArrastar($event)"
+  (dragleave)="sobre.set(false)"
+  (drop)="aoSoltar($event)"
+>
+  <mat-icon class="icone">upload_file</mat-icon>
+  <p class="titulo">Arraste o XML da NF-e para cá</p>
+  <p class="dica">Modelo 55, leiaute 4.00, até 1 MB</p>
+  <button mat-flat-button type="button" [disabled]="desabilitada()" (click)="campo.click()">
+    <mat-icon>folder_open</mat-icon>
+    Escolher arquivo
+  </button>
+  <input #campo type="file" accept=".xml,application/xml,text/xml" hidden (change)="aoEscolher(campo)" />
+</div>

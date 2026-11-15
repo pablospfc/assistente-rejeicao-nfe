@@ -1,0 +1,19 @@
+.cartao {
+  max-width: 720px;
+  margin: 32px auto;
+}
+
+mat-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.erro {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: var(--mat-sys-error);
+}

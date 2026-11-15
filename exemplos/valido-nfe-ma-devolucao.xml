@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!-- NF-e SINTÉTICA para testes (homologação). Todos os dados são fictícios. --><!-- Devolução de compra (finNFe = 4) de 2 unidades do item 2 da nfe-ma-industria-st-ipi.xml, referenciada em NFref. --><!-- vNF = vProd 50,00 + vIPIDevol 5,00 = 55,00 --><!-- A assinatura abaixo é apenas estrutural (valores base64 de preenchimento); ver D006. --><NFe xmlns="http://www.portalfiscal.inf.br/nfe">
+  <infNFe Id="NFe21261111222333000181550010000000051748596070" versao="4.00">
+    <ide>
+      <cUF>21</cUF>
+      <cNF>74859607</cNF>
+      <natOp>DEVOLUCAO DE COMPRA PARA COMERCIALIZACAO</natOp>
+      <mod>55</mod>
+      <serie>1</serie>
+      <nNF>5</nNF>
+      <dhEmi>2026-11-09T11:00:00-03:00</dhEmi>
+      <tpNF>1</tpNF>
+      <idDest>1</idDest>
+      <cMunFG>2111300</cMunFG>
+      <tpImp>1</tpImp>
+      <tpEmis>1</tpEmis>
+      <cDV>0</cDV>
+      <tpAmb>2</tpAmb>
+      <finNFe>4</finNFe>
+      <indFinal>0</indFinal>
+      <indPres>0</indPres>
+      <procEmi>0</procEmi>
+      <verProc>TCC-1.0</verProc>
+      <NFref>
+        <refNFe>21261144555666000181550010000000041637485965</refNFe>
+      </NFref>
+    </ide>
+    <emit>
+      <CNPJ>11222333000181</CNPJ>
+      <xNome>EMPRESA FICTICIA DE TESTES LTDA</xNome>
+      <enderEmit>
+        <xLgr>RUA DOS TESTES</xLgr>
+        <nro>100</nro>
+        <xBairro>CENTRO</xBairro>
+        <cMun>2111300</cMun>
+        <xMun>SAO LUIS</xMun>
+        <UF>MA</UF>
+        <CEP>65000000</CEP>
+        <cPais>1058</cPais>
+        <xPais>BRASIL</xPais>
+      </enderEmit>
+      <IE>123456789</IE>
+      <CRT>3</CRT>
+    </emit>
+    <dest>
+      <CNPJ>44555666000181</CNPJ>
+      <xNome>NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL</xNome>
+      <enderDest>
+        <xLgr>AVENIDA INDUSTRIAL FICTICIA</xLgr>
+        <nro>1000</nro>
+        <xBairro>DISTRITO INDUSTRIAL</xBairro>
+        <cMun>2111300</cMun>
+        <xMun>SAO LUIS</xMun>
+        <UF>MA</UF>
+        <CEP>65090000</CEP>
+        <cPais>1058</cPais>
+        <xPais>BRASIL</xPais>
+      </enderDest>
+      <indIEDest>1</indIEDest>
+      <IE>120002264</IE>
+    </dest>
+    <det nItem="1">
+      <prod>
+        <cProd>102</cProd>
+        <cEAN>SEM GTIN</cEAN>
+        <xProd>PRODUTO GENERICO TRIBUTADO</xProd>
+        <NCM>94036000</NCM>
+        <CFOP>5202</CFOP>
+        <uCom>UN</uCom>
+        <qCom>2.0000</qCom>
+        <vUnCom>25.0000000000</vUnCom>
+        <vProd>50.00</vProd>
+        <cEANTrib>SEM GTIN</cEANTrib>
+        <uTrib>UN</uTrib>
+        <qTrib>2.0000</qTrib>
+        <vUnTrib>25.0000000000</vUnTrib>
+        <indTot>1</indTot>
+      </prod>
+      <imposto>
+        <ICMS>
+          <ICMS00>
+            <orig>0</orig>
+            <CST>00</CST>
+            <modBC>3</modBC>
+            <vBC>50.00</vBC>
+            <pICMS>20.00</pICMS>
+            <vICMS>10.00</vICMS>
+          </ICMS00>
+        </ICMS>
+        <PIS>
+          <PISAliq>
+            <CST>01</CST>
+            <vBC>50.00</vBC>
+            <pPIS>1.65</pPIS>
+            <vPIS>0.83</vPIS>
+          </PISAliq>
+        </PIS>
+        <COFINS>
+          <COFINSAliq>
+            <CST>01</CST>
+            <vBC>50.00</vBC>
+            <pCOFINS>7.60</pCOFINS>
+            <vCOFINS>3.80</vCOFINS>
+          </COFINSAliq>
+        </COFINS>
+      </imposto>
+      <impostoDevol>
+        <pDevol>10.00</pDevol>
+        <IPI>
+          <vIPIDevol>5.00</vIPIDevol>
+        </IPI>
+      </impostoDevol>
+    </det>
+    <total>
+      <ICMSTot>
+        <vBC>50.00</vBC>
+        <vICMS>10.00</vICMS>
+        <vICMSDeson>0.00</vICMSDeson>
+        <vFCP>0.00</vFCP>
+        <vBCST>0.00</vBCST>
+        <vST>0.00</vST>
+        <vFCPST>0.00</vFCPST>
+        <vFCPSTRet>0.00</vFCPSTRet>
+        <vProd>50.00</vProd>
+        <vFrete>0.00</vFrete>
+        <vSeg>0.00</vSeg>
+        <vDesc>0.00</vDesc>
+        <vII>0.00</vII>
+        <vIPI>0.00</vIPI>
+        <vIPIDevol>5.00</vIPIDevol>
+        <vPIS>0.83</vPIS>
+        <vCOFINS>3.80</vCOFINS>
+        <vOutro>0.00</vOutro>
+        <vNF>55.00</vNF>
+      </ICMSTot>
+    </total>
+    <transp>
+      <modFrete>9</modFrete>
+    </transp>
+    <pag>
+      <detPag>
+        <tPag>90</tPag>
+        <vPag>0.00</vPag>
+      </detPag>
+    </pag>
+    <infRespTec>
+      <CNPJ>11222333000181</CNPJ>
+      <xContato>RESPONSAVEL FICTICIO</xContato>
+      <email>contato@exemplo.com.br</email>
+      <fone>98999999999</fone>
+    </infRespTec>
+  </infNFe>
+  <Signature xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/><Reference URI="#NFe21261111222333000181550010000000051748596070"><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/><Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><DigestValue>6iMsvQ/XXsqAVgtTX8IbM97P8GI=</DigestValue></Reference></SignedInfo><SignatureValue>dfjXdRXoTaKqPyo3ZFInJyDmEXKj8wbYaDQTyZB5zlEi8b/p9jtbO4JzGVEEWYwmFsPFY1Z1fDq6&#13;
+FXhU/dklfpH1rJUlKDPPY/orPWxFrjCsFiYFA8i9MXOCIIBapDDxITU9P9MCpp2GXUviBGMTY9Dx&#13;
+nbdPUYQ/OqiJ6d/4gSqYlQWvvuwno1af1au1FBvtNR02jZ0+XnO6uoWtVDa8C2Is3pMFFXs96nqV&#13;
+iGUNHhfR15GiWjqXWu+Dn47uz37rpR1uyU8OMI4MVvIEr3gRPbNoW7nXCP3bDpXS4cRRSEtAIWeB&#13;
+F1cT87mhcHM2PRcjei8REAzuwaZN6gC/4vS5jw==</SignatureValue><KeyInfo><X509Data><X509Certificate>MIIDaTCCAlGgAwIBAgIIWEIJWXxt4IcwDQYJKoZIhvcNAQELBQAwYzELMAkGA1UEBhMCQlIxKjAo&#13;
+BgNVBAsTIUNlcnRpZmljYWRvIGRlIHRlc3RlIGF1dG9hc3NpbmFkbzEoMCYGA1UEAxMfRU1QUkVT&#13;
+QSBGSUNUSUNJQSBERSBURVNURVMgTFREQTAeFw0yNjExMTUyMDEzMjdaFw0zNjExMTIyMDEzMjda&#13;
+MGMxCzAJBgNVBAYTAkJSMSowKAYDVQQLEyFDZXJ0aWZpY2FkbyBkZSB0ZXN0ZSBhdXRvYXNzaW5h&#13;
+ZG8xKDAmBgNVBAMTH0VNUFJFU0EgRklDVElDSUEgREUgVEVTVEVTIExUREEwggEiMA0GCSqGSIb3&#13;
+DQEBAQUAA4IBDwAwggEKAoIBAQCtZBOk/OzqROfwq9Cbkalj8fW4e0ctwlB8uVQtLlX8cWv2PvOb&#13;
+JMq9mWhpTVyaCS6K5/XAX2U7/tnGwWdFJYhMxu1Ut6UpKxfLyR0ut6D2Y5pWi6eJy3Sp/9DiuxDS&#13;
+7UTGGr6XupQElse4MUPeR47JpBeqc9bk6nWwyoLeZ3kROIwL0Hn2TUAac7AA+3iJlz1AfQkOsb7M&#13;
+VevoYb46RAVjJRjXgkeL4MZC6WEMjmxjrHe7gkwpg5RpygLzCkkghJKC62Pppkw4IGkYYLxaAsKe&#13;
+wTi2FtzUBE1ENViswW8fzHRn/xNR32/TLQQ4o27Apy3PdEhHY/bW2pp4/gVVIgVTAgMBAAGjITAf&#13;
+MB0GA1UdDgQWBBSENoxuAzrlc1apHxmvQH5PBgAacTANBgkqhkiG9w0BAQsFAAOCAQEAQG+MK23n&#13;
+/BMhJS7xgr5n8KGD+1ZdIy/HZn+IGPTNTdUOdo3a2AcxWDW66xIF8DVVQ7CfFXJFplxPIU8KJPZm&#13;
+YZLc5yVWK6nm/j/a5A3WskFJ5CWZmv0PK2EN7dtH9k29t3xB+eyg9OYxXpf5vz3Rxz/ZN0T6Y0kZ&#13;
+sJJrDYb+obph6NT3ej6MRZTfWEWCIwGSDGIJKVWkkElE2gJk0tgGEtFUk6hYypPypL+Un+wtukdI&#13;
+llZLNyoBQnOU9gJyGJd6Nzx4/VfmOTK8lif8RRTRTcvP1DlirBcySUZ/RkHV/wEqTNGlANWxvPcX&#13;
+xYFvLtQBfBlGFlU6wO2/ogblNCnmyg==</X509Certificate></X509Data></KeyInfo></Signature></NFe>

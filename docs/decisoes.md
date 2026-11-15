@@ -458,3 +458,65 @@ Na prática, o projeto aceita qualquer certificado, inclusive autoassinado, e co
 **Alternativas descartadas.**
 - *Corrigir a expectativa da mutação para a base de devolução:* faria o resultado chegar a 100%, mas seria um ajuste feito depois de ver o resultado, o que comprometeria a avaliação.
 - *Trocar a mutação por outra em que o elemento removido seja sempre o último:* esconderia uma característica real da validação por schema, que interessa à discussão.
+
+## D025 — Frontend: Angular 22 com Angular Material
+
+**Contexto.** O frontend tem duas telas, o envio do arquivo e o diagnóstico, e vai virar figura no artigo. A stack prevista é o Angular na versão estável atual, com componentes standalone.
+
+**Decisão.**
+- **Versão:** Angular 22.2 (CLI 22.2.7), criado com `npx @angular/cli@22 new` e com o CLI como dependência local (`npx ng`), sem instalação global. O Angular 22 exige Node `^22.22.3 || ^24.15.0 || >=26`, e foi usado o **Node 24.22.3**, instalado pelo `nvm`. A versão fica documentada em `frontend/.nvmrc` (`24`) e no campo `engines` do `package.json` (`^24.15.0`).
+- **Arquitetura:**
+  - componentes standalone, *signals*, o novo *control flow* (`@if`, `@for`) e aplicação *zoneless*;
+  - testes com Vitest, o executor padrão do CLI 22;
+  - comunicação com o backend por `HttpClient` (`withFetch`) e, em desenvolvimento, pelo proxy `proxy.conf.json` (`/api` → `localhost:8080`), sem precisar configurar CORS no backend.
+- **Angular Material** com o tema padrão do Material 3 (`mat.theme`) e o mínimo de CSS próprio. Os componentes do Material são usados sempre que existem:
+  - `mat-toolbar` na barra;
+  - `mat-card` no envio, no resumo, em cada ocorrência e no XML;
+  - `mat-expansion-panel` nos grupos por camada;
+  - `mat-chip` no código de rejeição;
+  - `mat-progress-bar`, `mat-button` e `mat-icon`.
+
+  A área de arrastar e soltar é um componente próprio simples (`AreaArquivo`), porque o Material não tem um, e usa as variáveis de cor e forma do tema (`--mat-sys-*`).
+- **Telas:**
+  - **envio:** confere `.xml`, até 1 MB e arquivo não vazio antes de enviar;
+  - **diagnóstico:** resumo, aviso de `regrasApesarDeFalhaNoSchema`, ocorrências agrupadas por camada e visualizador do XML com o campo destacado (D026).
+
+**Alternativas descartadas.**
+- *CSS próprio:* daria mais controle sobre o visual, mas mais código para manter e para explicar. O Material entrega acessibilidade e um visual consistente para as figuras.
+- *Instalar o Angular CLI globalmente:* a versão do CLI ficaria fora do controle do projeto.
+- *CORS no backend:* desnecessário em desenvolvimento com o proxy, e o backend não precisa mudar.
+
+## D026 — Visualizador do XML no navegador, sem persistência e sem terceiros (extensão da D003)
+
+**Contexto.** Para destacar o campo apontado pela ocorrência, o diagnóstico mostra o XML enviado. A D003 proíbe persistir o XML no backend. Esta decisão estende a mesma regra ao navegador.
+
+**Decisão.**
+- **Só em memória:** o conteúdo do XML é lido do arquivo escolhido (`File.text()`) e guardado num *signal* (`SessaoDiagnostico`). Nada vai para `localStorage`, `sessionStorage`, IndexedDB ou cookies. Ao recarregar a página, a validação some e a guarda de rota volta para o envio. Um teste confere que o `Storage.setItem` não é chamado e que os dois armazenamentos e os cookies ficam vazios.
+- **Sem terceiros:** não há analytics nem envio a terceiros. O XML só vai para `POST /api/validacoes`, o backend da própria aplicação. O `ng add @angular/material` tinha incluído fontes e ícones carregados de `fonts.googleapis.com`. Eles foram trocados pelos pacotes `@fontsource/roboto` e `material-symbols`, servidos pelo próprio bundle. A verificação no navegador mostrou todas as requisições na própria origem (`localhost:4200`), e o build não tem nenhuma referência a domínios do Google.
+- **Destaque do campo:**
+  - **XML bem formado:** o `DOMParser` lê o XML, e `resolverXPath` segue o formato dos XPath do backend (nomes locais, índice só com irmãos de mesmo nome, `/@atributo` no fim). O visualizador desenha a árvore indentada e marca o **nó** (identidade do elemento), não uma linha de texto. Isso funciona com NF-e escritas numa linha só, como as dos emissores reais. Em XPath de atributo, o elemento e o atributo ficam destacados. Ao clicar numa ocorrência, a área do XML rola até o campo sem mover a página.
+  - **XML mal formado (243):** sem árvore, o visualizador mostra o texto original e destaca a linha informada pelo backend ("linha L, coluna C").
+- **Limitação:** no motivo `elementoInesperado`, o destaque vai para o elemento seguinte (D024). Destacar também a posição do elemento esperado continua como melhoria futura.
+
+**Alternativas descartadas.**
+- *O backend devolver o XML na resposta:* duplicaria o tráfego e manteria o conteúdo circulando sem necessidade, já que o navegador já tem o arquivo.
+- *Guardar a validação no `sessionStorage` para sobreviver ao recarregamento:* contrariaria a não persistência.
+- *Fontes do Google Fonts:* fariam o navegador do usuário chamar servidores de terceiros a cada acesso.
+
+## D027 — Exemplos assinados para a demonstração
+
+**Contexto.** Os XMLs de base no disco têm assinatura de preenchimento (D006) e, enviados pela interface, dariam 297. A demonstração e as figuras do artigo precisam de XMLs assinados de verdade, gerados por um comando reaproveitável (D022).
+
+**Decisão.**
+- `ExemplosAssinadosTest` (fontes de teste do backend) gera em `exemplos/`:
+  - os 5 XMLs de base assinados (`valido-*.xml`);
+  - 8 XMLs com erro, criados pelas mesmas mutações da avaliação (`erro-<código>-*.xml`): 243, 225, 297, 502, 210, 610, 531 (com o 528 como extra) e 327;
+  - um `README.md` com o que cada arquivo mostra e os códigos esperados.
+- Comando: `cd backend && ./mvnw test -Dtest=ExemplosAssinadosTest -Dexemplos.saida=../exemplos`. Sem a propriedade, o teste só confere os exemplos e roda em todo `mvnw test`.
+- Os códigos esperados são calculados com o **relógio real**, como a aplicação fará ao receber o arquivo. Por isso a mutação do 703, que depende do relógio fixo da avaliação, não entra nos exemplos.
+- **Só o certificado público:** cada exemplo leva apenas o `X509Certificate` em `KeyInfo/X509Data`. O teste falha se aparecer "PRIVATE KEY" ou `RSAKeyValue`, ou se houver mais de um certificado. A chave privada fica só na memória do teste e é descartada. Os exemplos podem ser versionados.
+- O README dos exemplos e o README do projeto explicam que as NF-e são sintéticas e assinadas com um certificado de teste autoassinado, sem valor fiscal.
+
+**Alternativas descartadas.**
+- *Assinar os exemplos à mão:* não seria reproduzível.
+- *Gerar os exemplos com uma chave fixa versionada:* contrariaria a regra de não ter segredos no repositório.

@@ -15,6 +15,41 @@ cd backend
 ./mvnw test
 ```
 
+Para subir a API (porta 8080):
+
+```bash
+cd backend
+./mvnw spring-boot:run
+```
+
+## Frontend
+
+Angular 22 com Angular Material. Requer Node 24 (versão em `frontend/.nvmrc`); o Angular CLI é dependência do projeto (`npx ng`), sem instalação global.
+
+```bash
+cd frontend
+npm install
+npm start
+```
+
+A aplicação abre em `http://localhost:4200` e encaminha `/api` para o backend em `localhost:8080` (`proxy.conf.json`). O XML enviado fica só na memória do navegador, para o visualizador destacar o campo: nada é gravado no navegador nem enviado a terceiros, e as fontes e os ícones vêm do próprio bundle.
+
+Testes de componentes (Vitest):
+
+```bash
+cd frontend
+npx ng test --watch=false
+```
+
+## Exemplos para demonstração
+
+A pasta [`exemplos/`](exemplos/) tem NF-e **sintéticas**, sem nenhum dado fiscal real, assinadas com um **certificado de teste autoassinado, sem valor fiscal**. São 5 válidas e 8 com erros, para enviar pela interface. Cada arquivo leva só o certificado público; a chave privada nunca é gravada. Para gerar de novo:
+
+```bash
+cd backend
+./mvnw test -Dtest=ExemplosAssinadosTest -Dexemplos.saida=../exemplos
+```
+
 ## Certificado de teste (assinatura, rejeição 297)
 
 Os testes **não** dependem de nenhum certificado da sua máquina: cada execução gera o seu, numa pasta temporária, com o `keytool` do próprio JDK.
