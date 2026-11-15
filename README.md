@@ -1,3 +1,5 @@
+> **Projeto acadêmico (TCC), sem vínculo oficial com nenhuma Secretaria de Fazenda. Não substitui a validação da SEFAZ.**
+
 # Assistente de Rejeições da NF-e
 
 Aplicação que valida o XML de uma NF-e (modelo 55, leiaute 4.00) **antes da transmissão** e explica, em português, por que ela seria rejeitada e como corrigir. Projeto de TCC; a validação é 100% offline e o XML enviado não é gravado.
@@ -30,3 +32,7 @@ Para assinar XMLs fora dos testes, gere um certificado **autoassinado** de teste
 - O certificado vai para `certificados/certificado-teste.p12`, pasta que está no `.gitignore`.
 - A senha vem da variável `SENHA_CERTIFICADO_TESTE`. Sem ela, o script gera uma senha aleatória e a mostra uma única vez.
 - O certificado não é ICP-Brasil e não tem valor fiscal. Serve apenas para NF-e sintéticas em homologação.
+
+## Licença
+
+[MIT](LICENSE) © 2026 Claudio Pablo Silva.
