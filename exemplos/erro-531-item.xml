@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><!-- NF-e SINTÉTICA para testes (homologação). Todos os dados são fictícios. --><!-- Indústria vendendo a contribuinte no MA: ICMS-ST, IPI, frete, seguro, desconto e outras despesas (Fase 3). --><!-- vNF = vProd 1700,00 - vDesc 150,00 + vST 106,40 + vFrete 75,00 + vSeg 10,00 + vOutro 20,00 + vIPI 150,00 = 1911,40 --><!-- A assinatura abaixo é apenas estrutural (valores base64 de preenchimento); ver D006. --><NFe xmlns="http://www.portalfiscal.inf.br/nfe">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!-- NF-e SINTÉTICA para testes (homologação). Todos os dados são fictícios. --><!-- Indústria vendendo a contribuinte no MA: ICMS-ST, IPI, frete, seguro, desconto e outras despesas (Fase 3). --><!-- vNF = vProd 1700,00 - vDesc 150,00 + vST 106,40 + vFrete 75,00 + vSeg 10,00 + vOutro 20,00 + vIPI 150,00 = 1911,40 --><!-- Assinada com certificado de teste autoassinado, sem valor fiscal (só o certificado público; D027). --><NFe xmlns="http://www.portalfiscal.inf.br/nfe">
   <infNFe Id="NFe21261144555666000181550010000000041637485965" versao="4.00">
     <ide>
       <cUF>21</cUF>
@@ -274,23 +274,23 @@
       <fone>98999999999</fone>
     </infRespTec>
   </infNFe>
-  <Signature xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/><Reference URI="#NFe21261144555666000181550010000000041637485965"><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/><Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><DigestValue>X1QekpmN+611imDfGkYWfoKaZmk=</DigestValue></Reference></SignedInfo><SignatureValue>FpL5fbCKQ40Egcf5al+B3h5v92WpzvkMV9iAFjqfb1ca6IQUTq6L9qsqgzvUbMNpL1Gwg6N0Kjjy&#13;
-cR+LhFgELTd5tzlKRkYqP34keYgmZF9OVrFM64as+LuW8Po3/49LMi0CjPvXITC4EA+tWNIxXtKc&#13;
-/hgK3GfYg2sLNvFluKw5s1Di669AeSvhWdTjPYEvcLJoElzhLjG3adRAj8GL2LAbGhJLUxl63Ebs&#13;
-Tn64omarYjqtd8maXGrn7nt8SH/MWdnxXBdyl3x5ynFfZQ+4rfglCOHrNIDS8Kw2QPkGvTxE/zrc&#13;
-1a0tgTX0E/CLKA3JtZuLV3lkycyMwovfPtAw1g==</SignatureValue><KeyInfo><X509Data><X509Certificate>MIIDaTCCAlGgAwIBAgIIWEIJWXxt4IcwDQYJKoZIhvcNAQELBQAwYzELMAkGA1UEBhMCQlIxKjAo&#13;
-BgNVBAsTIUNlcnRpZmljYWRvIGRlIHRlc3RlIGF1dG9hc3NpbmFkbzEoMCYGA1UEAxMfRU1QUkVT&#13;
-QSBGSUNUSUNJQSBERSBURVNURVMgTFREQTAeFw0yNjExMTUyMDEzMjdaFw0zNjExMTIyMDEzMjda&#13;
-MGMxCzAJBgNVBAYTAkJSMSowKAYDVQQLEyFDZXJ0aWZpY2FkbyBkZSB0ZXN0ZSBhdXRvYXNzaW5h&#13;
-ZG8xKDAmBgNVBAMTH0VNUFJFU0EgRklDVElDSUEgREUgVEVTVEVTIExUREEwggEiMA0GCSqGSIb3&#13;
-DQEBAQUAA4IBDwAwggEKAoIBAQCtZBOk/OzqROfwq9Cbkalj8fW4e0ctwlB8uVQtLlX8cWv2PvOb&#13;
-JMq9mWhpTVyaCS6K5/XAX2U7/tnGwWdFJYhMxu1Ut6UpKxfLyR0ut6D2Y5pWi6eJy3Sp/9DiuxDS&#13;
-7UTGGr6XupQElse4MUPeR47JpBeqc9bk6nWwyoLeZ3kROIwL0Hn2TUAac7AA+3iJlz1AfQkOsb7M&#13;
-VevoYb46RAVjJRjXgkeL4MZC6WEMjmxjrHe7gkwpg5RpygLzCkkghJKC62Pppkw4IGkYYLxaAsKe&#13;
-wTi2FtzUBE1ENViswW8fzHRn/xNR32/TLQQ4o27Apy3PdEhHY/bW2pp4/gVVIgVTAgMBAAGjITAf&#13;
-MB0GA1UdDgQWBBSENoxuAzrlc1apHxmvQH5PBgAacTANBgkqhkiG9w0BAQsFAAOCAQEAQG+MK23n&#13;
-/BMhJS7xgr5n8KGD+1ZdIy/HZn+IGPTNTdUOdo3a2AcxWDW66xIF8DVVQ7CfFXJFplxPIU8KJPZm&#13;
-YZLc5yVWK6nm/j/a5A3WskFJ5CWZmv0PK2EN7dtH9k29t3xB+eyg9OYxXpf5vz3Rxz/ZN0T6Y0kZ&#13;
-sJJrDYb+obph6NT3ej6MRZTfWEWCIwGSDGIJKVWkkElE2gJk0tgGEtFUk6hYypPypL+Un+wtukdI&#13;
-llZLNyoBQnOU9gJyGJd6Nzx4/VfmOTK8lif8RRTRTcvP1DlirBcySUZ/RkHV/wEqTNGlANWxvPcX&#13;
-xYFvLtQBfBlGFlU6wO2/ogblNCnmyg==</X509Certificate></X509Data></KeyInfo></Signature></NFe>
+  <Signature xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/><Reference URI="#NFe21261144555666000181550010000000041637485965"><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/><Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><DigestValue>X1QekpmN+611imDfGkYWfoKaZmk=</DigestValue></Reference></SignedInfo><SignatureValue>E1y+azjOrto2qxNJXljNrrvP3EuRGKLyBjnyYIvpwDAaR4AoeAdVQMInebpUOPFHZbMAWqrFLmC3&#13;
+Qmruj4GoiSJCbPP6MEQULTPY2KqsBO6WmCtNXtdiDqr4FXxGpmbVW6KBVw5+SHd8iu8IrfGEm/P/&#13;
+y2s3L9lRGN62C8+wmLKlxl+7Rc3PYK/eXTsKGEnk2Cxi/d6VYaJpdzXwSi4PtNLSWUDsvcXyiFAj&#13;
+oI9OE9LEpkZi30hreqyv1aZ0ShcKcLrxKsT0DQzQtWnGG1AXL6eMX0mbNvXR8aP5xL75+zqlhpDR&#13;
+GGowRF4tVA/n7PHOaTYY3KcrmwkojIC2W6GHPw==</SignatureValue><KeyInfo><X509Data><X509Certificate>MIIDajCCAlKgAwIBAgIJAKNaoR46fqGIMA0GCSqGSIb3DQEBCwUAMGMxCzAJBgNVBAYTAkJSMSow&#13;
+KAYDVQQLEyFDZXJ0aWZpY2FkbyBkZSB0ZXN0ZSBhdXRvYXNzaW5hZG8xKDAmBgNVBAMTH0VNUFJF&#13;
+U0EgRklDVElDSUEgREUgVEVTVEVTIExUREEwHhcNMjYxMTE1MjAzOTQ0WhcNMzYxMTEyMjAzOTQ0&#13;
+WjBjMQswCQYDVQQGEwJCUjEqMCgGA1UECxMhQ2VydGlmaWNhZG8gZGUgdGVzdGUgYXV0b2Fzc2lu&#13;
+YWRvMSgwJgYDVQQDEx9FTVBSRVNBIEZJQ1RJQ0lBIERFIFRFU1RFUyBMVERBMIIBIjANBgkqhkiG&#13;
+9w0BAQEFAAOCAQ8AMIIBCgKCAQEAozvaZdbyxN0cI5GL4giX6AgbZc8tcrxtAyc2VukWAjgf96py&#13;
+O3nRwmVkf0eVwY0cVHrpcyI3jEl7RtGlqWkWc3m/XEOk0h0Z5yero80AH68q46aT1pZEUiF8Vnk2&#13;
+AvP6fv+VifEJ9aI1qceU+YjkU3QfK4wV9M25GXJr4BaGOoI0FbU1CTfdOBYXkO6U5tSgRqA4w6ih&#13;
+cJO0VBkdSlkXu3537XVrOSBQjm87vXLK/JClkoQXcl+jbVwkkAOMKTzYVoZu4EUxVCWwYua8lfvG&#13;
+bf7ZmOe2ZGz/A2sMJ7UAPbnKE0PTCZ1nx+cLhuWUcidlTMxPxzjl1PcQ8MmHuo1iVwIDAQABoyEw&#13;
+HzAdBgNVHQ4EFgQUeNMlSQgP1L7XkVY+p/hmoIbIBlYwDQYJKoZIhvcNAQELBQADggEBABIlVAdZ&#13;
+rXDXi5IYREEUMi7z7C2DAREVD6Y7zXU9D0nCI/cfU8LQHn5Zgr/lRwKp4gfo+MFKLkCASELRnM6W&#13;
+Xqy+YXxkfIT0iEEGyT/o2QkKVOwXsXfdVHE8YmCN6slJGdbucF309eRWW9clR3fBP9ISyVnx4Q4R&#13;
+6/WGI6pujbltLpd5foqvILys6GBTa4CfgWNCRcIlNcY/YyHR+4pmBZeiXvQSgJYsy4hcEKXSCBiQ&#13;
+2iUkrqFpJPYUphDSxMZ0OepfaqkVw39onSOFPG/QB1Ry2qIKJkNyMIqOkmEoUqh8ygHF5pV1Z0fB&#13;
+3tHmDZ0XDmHQLp/BR/dhb+bCVT+nKN8=</X509Certificate></X509Data></KeyInfo></Signature></NFe>

@@ -68,7 +68,7 @@ public final class ValidadorSchema {
             // Spring Boot, cujas URLs "jar:nested:..." o JDK identifica pelo protocolo "nested".
             fabrica.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "file,jar:file,nested");
             // Um include/import não encontrado é só "aviso" para o Xerces; aqui ele impede a carga.
-            fabrica.setErrorHandler(TODO_AVISO_EH_ERRO);
+            fabrica.setErrorHandler(AVISO_TAMBEM_EH_ERRO);
             return fabrica.newSchema(xsd);
         } catch (SAXException e) {
             throw new IllegalStateException("Não foi possível carregar o schema " + xsd, e);
@@ -123,7 +123,7 @@ public final class ValidadorSchema {
         }
     }
 
-    private static final ErrorHandler TODO_AVISO_EH_ERRO = new ErrorHandler() {
+    private static final ErrorHandler AVISO_TAMBEM_EH_ERRO = new ErrorHandler() {
         @Override
         public void warning(SAXParseException e) throws SAXException {
             throw e;

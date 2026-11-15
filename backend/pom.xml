@@ -13,7 +13,7 @@
 
     <groupId>br.com.assistentenfe</groupId>
     <artifactId>assistente-rejeicao-nfe</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>Assistente de Rejeições da NF-e</name>
     <description>Valida o XML de uma NF-e antes da transmissão e explica as rejeições.</description>
 

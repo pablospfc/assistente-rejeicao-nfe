@@ -20,10 +20,6 @@ public final class NFe {
         this.documento = documento;
     }
 
-    public Document documento() {
-        return documento;
-    }
-
     /**
      * Lê o texto de um campo pelo caminho de nomes locais,
      * ex.: {@code texto("/NFe/infNFe/ide/cUF")}. Ignora namespaces.

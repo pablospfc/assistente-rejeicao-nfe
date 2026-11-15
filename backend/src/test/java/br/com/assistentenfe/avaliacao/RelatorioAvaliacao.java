@@ -166,9 +166,9 @@ public final class RelatorioAvaliacao {
                 for (Mutacao m : mutacoes.stream().filter(m -> m.codigo().equals(codigo)).toList()) {
                     long n = casos.stream().filter(c -> c.mutacao().id().equals(m.id())).count();
                     s.append("| ").append(g.getKey()).append(" | ").append(codigo).append(" | ")
-                            .append(titulo(codigo)).append(" | ").append(m.descricao()).append(" | ")
+                            .append(titulo(codigo)).append(" | ").append(celula(m.descricao())).append(" | ")
                             .append(m.assinatura() == Mutacao.Assinatura.REASSINAR ? "muta e reassina" : "muta após assinar")
-                            .append(" | ").append(m.isolamento() == null ? "—" : m.isolamento())
+                            .append(" | ").append(m.isolamento() == null ? "—" : celula(m.isolamento()))
                             .append(" | ").append(n).append(" |\n");
                 }
             }
@@ -177,8 +177,15 @@ public final class RelatorioAvaliacao {
     }
 
     private String titulo(String codigo) {
-        return catalogo.explicar(new Ocorrencia(codigo, Camada.ESTRUTURA, null, null, null, null))
-                .titulo().replace("|", "/");
+        return celula(catalogo.explicar(new Ocorrencia(codigo, Camada.ESTRUTURA, null, null, null, null)).titulo());
+    }
+
+    /**
+     * Texto seguro para uma célula de tabela Markdown: escapa "<" e ">" (senão o GitHub trata
+     * "</natOp>" como tag HTML e o esconde) e a barra vertical, que separa as colunas.
+     */
+    static String celula(String texto) {
+        return texto.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("|", "\\|");
     }
 
     // --- Cabeçalho de reprodutibilidade -------------------------------------------------------
