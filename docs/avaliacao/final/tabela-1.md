@@ -1,7 +1,7 @@
 # Avaliação do Assistente de Rejeições da NF-e
 
-- **Gerado em:** 2026-11-15T18:52:41.7294333-03:00
-- **Commit:** `41eceee158f817c3dfda5a6eae220a830dce45f3`
+- **Gerado em:** 2026-11-15T19:16:59.5971622-03:00
+- **Commit:** `104ba3616534b4e9ddae1146183ddaaf3a928dae`
 - **JDK:** Microsoft 25.0.5.0.2
 - **Instante fixo da validação:** 2026-11-12T12:00:00Z; tolerância do 703: PT5M
 - **Fontes:**

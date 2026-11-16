@@ -572,6 +572,12 @@ Na prática, o projeto aceita qualquer certificado, inclusive autoassinado, e co
 - O jar empacotado sobe sem avisos da aplicação no JDK 25 e responde corretamente aos exemplos válidos e com erro (243, 297 e 225/207/610/598), ao arquivo ausente (400) e ao acima de 1 MB (413).
 - Os avisos de `sun.misc.Unsafe` vistos no build vêm do Maven 3.9.11 (biblioteca Guice), não da aplicação.
 - **Execução final regenerada.** Depois do commit da migração (**41eceee**), a execução final (`docs/avaliacao/final/`) foi gerada de novo no JDK 25, para o cabeçalho refletir a versão da tag `v1.0.0`. A execução anterior era a do commit **659070f**, no JDK 21. Só as linhas de data, commit e JDK mudaram na Tabela 1 e no Quadro 1, e o `resultados.csv` é idêntico. A execução inicial (`docs/avaliacao/inicial/`, commit 792e81a, JDK 21) foi mantida como estava.
+- **Remoção dos comentários do código-fonte.** A pedido do autor, antes de congelar o código para a tag `v1.0.0`, foram removidos todos os comentários do Java (Javadoc e de linha, no código principal, nos testes e em `backend/ferramentas`), do TypeScript, do `index.html` e do `styles.scss`.
+  - Ficaram os comentários do catálogo YAML (as marcas de fonte de cada título oficial), dos XMLs sintéticos, dos scripts e das configurações.
+  - As justificativas que estavam nos Javadoc já estão registradas neste arquivo.
+  - A remoção foi feita por um removedor que reconhece strings, text blocks e template literals. O diff foi conferido: só saíram linhas de comentário ou em branco, e as 13 linhas modificadas são as originais sem o comentário do fim.
+  - Os 233 testes do backend e os 22 do frontend passam, e o bundle de produção do frontend saiu idêntico.
+  - A execução final foi gerada de novo no commit da remoção (**104ba36**). Só a data e o commit mudaram no cabeçalho, e o `resultados.csv` é idêntico.
 
 **Alternativas descartadas.**
 - *Manter o Boot 3.5 e o Java 21:* o suporte gratuito da linha 3.5 era incerto no período de uso do projeto.
